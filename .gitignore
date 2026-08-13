@@ -22,3 +22,22 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# --- AI / agent tooling: local only, never published ---
+# This repo is public. Planning docs, agent instructions, and assistant
+# session state stay on disk and out of history.
+PLAN.md
+CLAUDE.md
+AGENTS.md
+.claude/
+.cursor/
+.cursorrules
+.cursorignore
+.windsurfrules
+.aider*
+.continue/
+.github/copilot-instructions.md
+.codeium/
+*.llm.md
+notes/
+

@@ -36,7 +36,7 @@ const latest = released[0];
           {t.home.activeBatchLabel}
         </h2>
         <div class="mt-6 grid md:grid-cols-[200px_1fr] gap-8 items-start">
-          <Placeholder label={`Batch ${active.data.id}`} />
+          <Placeholder label={`Batch ${active.data.id}`} class="max-w-[200px]" />
           <div>
             <h3 class="font-[family-name:var(--font-display)] text-2xl">
               {t.batches.batchNumber} {active.data.id} — {active.data.name}
@@ -61,7 +61,7 @@ const latest = released[0];
           {t.home.latestReleaseLabel}
         </h2>
         <div class="mt-6 grid md:grid-cols-[200px_1fr] gap-8 items-start">
-          <Placeholder label={`Batch ${latest.data.id}`} />
+          <Placeholder label={`Batch ${latest.data.id}`} class="max-w-[200px]" />
           <div>
             <h3 class="font-[family-name:var(--font-display)] text-2xl">
               {t.batches.batchNumber} {latest.data.id} — {latest.data.name}

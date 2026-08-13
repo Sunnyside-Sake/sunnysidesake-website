@@ -62,7 +62,9 @@ const vitals = [
     </section>
 
     <div class="mt-12 grid md:grid-cols-[260px_1fr] gap-10 items-start">
-      <Placeholder label={`Batch ${d.id}`} />
+      {/* max-w matters: the grid collapses to one column on mobile and an
+          unconstrained 3:4 block would eat the whole viewport. */}
+      <Placeholder label={`Batch ${d.id}`} class="max-w-[260px]" />
 
       <div>
         {
