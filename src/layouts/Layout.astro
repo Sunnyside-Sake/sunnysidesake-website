@@ -1,0 +1,68 @@
+---
+import '../styles/global.css';
+import { t } from '../i18n/en';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = t.meta.defaultDescription } = Astro.props;
+const pageTitle = title ? `${title} — ${t.brand.name}` : t.brand.name;
+
+const navItems = [
+  { href: '/batches', label: t.nav.batches },
+  { href: '/artists', label: t.nav.artists },
+  { href: '/journal', label: t.nav.journal },
+  { href: '/about', label: t.nav.about },
+];
+---
+
+<!doctype html>
+<html lang={t.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+
+  <body class="font-[family-name:var(--font-body)] min-h-screen flex flex-col">
+    <header class="border-b border-rice-200">
+      <nav class="max-w-5xl mx-auto px-6 py-5 flex items-baseline justify-between gap-6">
+        <a href="/" class="font-[family-name:var(--font-display)] text-xl tracking-tight">
+          {t.brand.name}
+        </a>
+        <ul class="flex gap-6 text-sm">
+          {
+            navItems.map((item) => (
+              <li>
+                <a href={item.href} class="hover:text-accent transition-colors">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </header>
+
+    <main class="flex-1 max-w-5xl mx-auto px-6 py-12 w-full">
+      <slot />
+    </main>
+
+    <footer class="border-t border-rice-200 mt-16">
+      <div
+        class="max-w-5xl mx-auto px-6 py-8 text-sm text-rice-600 flex flex-wrap gap-x-6 gap-y-2 justify-between"
+      >
+        <span>{t.footer.responsibly}</span>
+        <span>© {new Date().getFullYear()} {t.brand.name}. {t.footer.rights}</span>
+      </div>
+    </footer>
+  </body>
+</html>

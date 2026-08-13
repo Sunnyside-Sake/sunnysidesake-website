@@ -1,0 +1,37 @@
+---
+/**
+ * Designed placeholder — NOT a broken image.
+ *
+ * Photography is backfilled later (PLAN.md §0 decision 7), and the site has to look
+ * intentional while empty and simply improve as photos land. A tonal block at the
+ * correct aspect ratio holds the layout so nothing reflows when a real image arrives.
+ */
+interface Props {
+  label?: string;
+  /** width/height, e.g. 3/4 for a bottle shot, 1 for a square label */
+  ratio?: number;
+  class?: string;
+}
+
+const { label, ratio = 3 / 4, class: className = '' } = Astro.props;
+---
+
+<div
+  class={`relative overflow-hidden bg-rice-100 border border-rice-200 flex items-center justify-center ${className}`}
+  style={`aspect-ratio: ${ratio};`}
+  role="img"
+  aria-label={label ? `Placeholder for ${label}` : 'Image placeholder'}
+>
+  <div
+    class="absolute inset-0 opacity-[0.06]"
+    style="background-image: repeating-linear-gradient(45deg, currentColor 0 1px, transparent 1px 9px);"
+  >
+  </div>
+  {
+    label && (
+      <span class="tabular relative text-rice-400 text-sm tracking-[0.2em] uppercase">
+        {label}
+      </span>
+    )
+  }
+</div>

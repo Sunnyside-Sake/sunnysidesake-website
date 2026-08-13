@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+/**
+ * Phase 2 placeholder tokens. The real design system is Phase 3 (PLAN.md §8) —
+ * type direction is still open. These exist so the scaffold renders coherently
+ * rather than looking broken, and so there is one place to change later.
+ */
+@theme {
+  /* Warm off-white through to near-black. Deliberately restrained. */
+  --color-rice-50: #faf8f4;
+  --color-rice-100: #f2ede4;
+  --color-rice-200: #e3dbcd;
+  --color-rice-400: #b3a894;
+  --color-rice-600: #6f6555;
+  --color-rice-800: #33302a;
+  --color-rice-900: #1c1a17;
+
+  /* Single accent. Used sparingly — active batch, stage markers, links. */
+  --color-accent: #b8593a;
+
+  --font-display: ui-serif, Georgia, "Times New Roman", serif;
+  --font-body: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+html {
+  background-color: var(--color-rice-50);
+  color: var(--color-rice-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Numeric data should align in columns. The vitals table and charts depend on it. */
+.tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}

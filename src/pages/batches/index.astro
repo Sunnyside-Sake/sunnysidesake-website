@@ -1,0 +1,44 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Placeholder from '../../components/Placeholder.astro';
+import { t } from '../../i18n/en';
+import { getCollection } from 'astro:content';
+
+const batches = (
+  await getCollection('batches', ({ data }) =>
+    import.meta.env.PROD ? data.draft !== true : true
+  )
+).sort((a, b) => b.data.id.localeCompare(a.data.id));
+---
+
+<Layout title={t.batches.title}>
+  <h1 class="font-[family-name:var(--font-display)] text-4xl tracking-tight">
+    {t.batches.title}
+  </h1>
+  <p class="mt-3 text-rice-600 max-w-prose">{t.batches.intro}</p>
+
+  {batches.length === 0 && <p class="mt-12 text-rice-400">{t.batches.empty}</p>}
+
+  <ul class="mt-12 grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-10">
+    {
+      batches.map((batch) => (
+        <li>
+          <a href={`/b/${batch.data.id}`} class="group block">
+            <Placeholder label={`Batch ${batch.data.id}`} />
+            <div class="mt-3 flex items-baseline justify-between gap-2">
+              <span class="tabular text-sm text-rice-400">{batch.data.id}</span>
+              {batch.data.status === 'active' && (
+                <span class="tabular text-xs uppercase tracking-[0.15em] text-accent">
+                  {t.batches.active}
+                </span>
+              )}
+            </div>
+            <h2 class="font-[family-name:var(--font-display)] text-lg group-hover:text-accent transition-colors">
+              {batch.data.name}
+            </h2>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>

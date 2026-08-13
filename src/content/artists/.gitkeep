@@ -1,0 +1,2 @@
+# Keeps the empty collection directory in git so the glob loader stops warning.
+# Delete once real content lands here.
