@@ -3,14 +3,15 @@ import Layout from '../../layouts/Layout.astro';
 import Placeholder from '../../components/Placeholder.astro';
 import { t } from '../../i18n/en';
 import { getCollection, render } from 'astro:content';
-import { loadReadings } from '../../lib/readings';
+import { loadReadings, stageMarkers } from '../../lib/readings';
 
 /**
  * THE QR TARGET. /b/001
  *
- * This URL is printed on physical labels and is permanent. It must never be
- * renumbered, and it must never language-redirect — printed codes have to resolve
- * deterministically. See PLAN.md §5.
+ * Printed on physical labels and therefore permanent: never renumbered, never
+ * language-redirected. Someone reaching this page is holding the bottle, has
+ * probably already tasted it, and wants the numbers. Thesis first, then
+ * sensory, then the full data.
  */
 export async function getStaticPaths() {
   const batches = await getCollection('batches', ({ data }) =>
@@ -25,7 +26,24 @@ export async function getStaticPaths() {
 const { batch } = Astro.props;
 const { Content } = await render(batch);
 const readings = loadReadings(batch.data.id);
+const markers = stageMarkers(readings);
 const d = batch.data;
+
+/**
+ * timeZone: 'UTC' is load-bearing, not decoration.
+ *
+ * A bare `2026-01-08` in frontmatter is parsed as UTC midnight. Formatting that
+ * in a negative-offset local zone (ET) rolls it back to Jan 7 — every date on
+ * the site silently off by one. Brew and release dates are exactly the kind of
+ * detail this audience checks, so pin the zone.
+ */
+const fmt = (dt?: Date) =>
+  dt?.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
 
 const vitals = [
   { label: t.batch.rice, value: d.rice },
@@ -35,138 +53,175 @@ const vitals = [
   { label: t.batch.abv, value: d.abv ? `${d.abv}%` : undefined },
   { label: t.batch.smv, value: d.smv !== undefined ? `${d.smv > 0 ? '+' : ''}${d.smv}` : undefined },
   { label: t.batch.acidity, value: d.acidity },
-].filter((v) => v.value !== undefined && v.value !== null);
+  { label: t.batch.brewStarted, value: fmt(d.brewStarted) },
+  { label: t.batch.released, value: fmt(d.released) },
+].filter((v) => v.value !== undefined && v.value !== null && v.value !== '');
 ---
 
 <Layout title={`${t.batches.batchNumber} ${d.id} — ${d.name}`} description={d.thesis}>
   <article>
-    <header>
-      <p class="tabular text-sm text-rice-400 tracking-[0.2em] uppercase">
-        {t.batches.batchNumber} {d.id}
-        {d.status === 'active' && <span class="text-accent ml-2">{t.batches.active}</span>}
-      </p>
-      <h1 class="font-[family-name:var(--font-display)] text-4xl md:text-5xl tracking-tight mt-3">
-        {d.name}
-      </h1>
-      {d.nameJa && <p class="mt-2 text-rice-600 text-lg">{d.nameJa}</p>}
-    </header>
+    {/* ============ HEADER ============ */}
+    <section class="relative overflow-hidden border-b border-ink-800">
+      <div
+        class="absolute inset-0 pointer-events-none opacity-[0.11]"
+        style="background: radial-gradient(80% 60% at 15% 110%, var(--color-flare) 0%, transparent 60%);"
+      >
+      </div>
 
-    {/* Thesis leads. A claim, not a vibe — PLAN.md §5. */}
-    <section class="mt-10 max-w-2xl">
-      <h2 class="tabular text-xs uppercase tracking-[0.2em] text-rice-400">
-        {t.batch.thesisLabel}
-      </h2>
-      <p class="font-[family-name:var(--font-display)] text-2xl mt-3 leading-snug">
-        {d.thesis}
-      </p>
+      <div class="relative max-w-6xl mx-auto px-6 pt-14 pb-14">
+        <div class="flex items-center gap-4">
+          <span class="tabular text-sm text-ink-500">
+            {t.batches.batchNumber} {d.id}
+          </span>
+          {
+            d.status === 'active' && (
+              <span class="label flex items-center gap-2 text-flare">
+                <span class="inline-block h-1.5 w-1.5 rounded-full bg-flare animate-pulse" />
+                {t.batches.active}
+              </span>
+            )
+          }
+        </div>
+
+        <h1 class="display text-4xl md:text-6xl mt-3">{d.name}</h1>
+        {d.nameJa && <p class="label mt-3 text-ink-400">{d.nameJa}</p>}
+
+        {/* Thesis leads: a claim, not a vibe. */}
+        <div class="mt-10 max-w-2xl border-l-2 border-flare pl-5">
+          <p class="label">{t.batch.thesisLabel}</p>
+          <p class="display text-xl md:text-2xl mt-3 leading-snug text-ink-100">
+            {d.thesis}
+          </p>
+        </div>
+      </div>
     </section>
 
-    <div class="mt-12 grid md:grid-cols-[260px_1fr] gap-10 items-start">
-      {/* max-w matters: the grid collapses to one column on mobile and an
-          unconstrained 3:4 block would eat the whole viewport. */}
-      <Placeholder label={`Batch ${d.id}`} class="max-w-[260px]" />
+    <div class="max-w-6xl mx-auto px-6">
+      {/* ============ SENSORY + VITALS ============ */}
+      <section class="grid md:grid-cols-[280px_1fr] gap-10 md:gap-14 py-14 items-start">
+        <Placeholder label={`Batch ${d.id}`} class="max-w-[280px]" />
 
-      <div>
+        <div>
+          {
+            d.tastingNotes.length > 0 && (
+              <div>
+                <h2 class="label">{t.batch.sensoryLabel}</h2>
+                <p class="display text-2xl mt-3">{d.tastingNotes.join(' · ')}</p>
+                <div class="mt-4 flex flex-wrap gap-x-8 gap-y-1">
+                  {d.servingTemp && (
+                    <p class="text-sm text-ink-400">
+                      <span class="text-ink-500">{t.batch.servingTemp}</span>{' '}
+                      <span class="tabular">{d.servingTemp}</span>
+                    </p>
+                  )}
+                  {d.pairing.length > 0 && (
+                    <p class="text-sm text-ink-400">
+                      <span class="text-ink-500">{t.batch.pairing}</span>{' '}
+                      {d.pairing.join(', ')}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )
+          }
+
+          {
+            vitals.length > 0 && (
+              <div class="mt-10">
+                <h2 class="label">{t.batch.vitalsLabel}</h2>
+                <dl class="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-px bg-ink-800 border border-ink-800">
+                  {vitals.map((v) => (
+                    <div class="bg-ink-950 px-4 py-3">
+                      <dt class="label text-ink-500">{v.label}</dt>
+                      <dd class="tabular text-lg mt-1">{v.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            )
+          }
+        </div>
+      </section>
+
+      {/* ============ FERMENTATION DATA ============ */}
+      <section class="py-14 border-t border-ink-800">
+        <div class="flex flex-wrap items-baseline justify-between gap-4">
+          <h2 class="label">{t.batch.dataLabel}</h2>
+          {
+            readings.length > 0 && (
+              <p class="tabular text-xs text-ink-500">
+                {readings.length} readings · day {readings[0].day}–
+                {readings[readings.length - 1].day}
+              </p>
+            )
+          }
+        </div>
+
+        {d.status === 'active' && <p class="text-sm text-flare mt-3">{t.batch.stillFermenting}</p>}
+
         {
-          d.tastingNotes.length > 0 && (
-            <section>
-              <h2 class="tabular text-xs uppercase tracking-[0.2em] text-rice-400">
-                {t.batch.sensoryLabel}
-              </h2>
-              <p class="mt-3">{d.tastingNotes.join(' · ')}</p>
-              {d.servingTemp && (
-                <p class="mt-2 text-rice-600 text-sm">
-                  {t.batch.servingTemp}: {d.servingTemp}
-                </p>
-              )}
-              {d.pairing.length > 0 && (
-                <p class="mt-1 text-rice-600 text-sm">
-                  {t.batch.pairing}: {d.pairing.join(', ')}
-                </p>
-              )}
-            </section>
+          markers.length > 0 && (
+            <div class="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+              {markers.map((m) => (
+                <span class="label text-ink-400">
+                  <span class="text-flare">{t.batch.day} {m.day}</span> · {t.batch.stages[m.stage]}
+                </span>
+              ))}
+            </div>
           )
         }
 
         {
-          vitals.length > 0 && (
-            <section class="mt-8">
-              <h2 class="tabular text-xs uppercase tracking-[0.2em] text-rice-400">
-                {t.batch.vitalsLabel}
-              </h2>
-              <dl class="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-3">
-                {vitals.map((v) => (
-                  <div>
-                    <dt class="text-xs text-rice-400">{v.label}</dt>
-                    <dd class="tabular">{v.value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-          )
-        }
-      </div>
-    </div>
-
-    {/* Fermentation data. Charts land in Phase 4 — this table proves the CSV pipeline. */}
-    <section class="mt-14 border-t border-rice-200 pt-8">
-      <h2 class="tabular text-xs uppercase tracking-[0.2em] text-rice-400">
-        {t.batch.dataLabel}
-      </h2>
-
-      {d.status === 'active' && (
-        <p class="mt-3 text-sm text-accent">{t.batch.stillFermenting}</p>
-      )}
-
-      {
-        readings.length === 0 ? (
-          <p class="mt-4 text-rice-400">{t.batch.noReadings}</p>
-        ) : (
-          <div class="mt-4 overflow-x-auto">
-            <table class="tabular text-sm min-w-full">
-              <thead class="text-rice-400 text-xs uppercase tracking-wider">
-                <tr class="border-b border-rice-200">
-                  <th class="text-left py-2 pr-6">{t.batch.day}</th>
-                  <th class="text-right py-2 pr-6">°C</th>
-                  <th class="text-right py-2 pr-6">pH</th>
-                  <th class="text-right py-2 pr-6">Baumé</th>
-                  <th class="text-right py-2 pr-6">Brix</th>
-                  <th class="text-left py-2">Stage</th>
-                </tr>
-              </thead>
-              <tbody>
-                {readings.map((r) => (
-                  <tr class="border-b border-rice-100">
-                    <td class="py-1.5 pr-6">{r.day}</td>
-                    <td class="py-1.5 pr-6 text-right">{r.temp ?? '—'}</td>
-                    <td class="py-1.5 pr-6 text-right">{r.ph ?? '—'}</td>
-                    <td class="py-1.5 pr-6 text-right">{r.baume ?? '—'}</td>
-                    <td class="py-1.5 pr-6 text-right">{r.brix ?? '—'}</td>
-                    <td class="py-1.5 text-accent text-xs">
-                      {r.stage ? t.batch.stages[r.stage] : ''}
-                    </td>
+          readings.length === 0 ? (
+            <p class="label mt-6">{t.batch.noReadings}</p>
+          ) : (
+            /* TODO Phase 4: swap this table for build-time SVG charts.
+               The table stays underneath as the accessible fallback. */
+            <div class="mt-8 overflow-x-auto">
+              <table class="tabular text-sm min-w-full border-collapse">
+                <thead>
+                  <tr class="border-b border-ink-700">
+                    <th class="label text-left py-3 pr-8 font-medium">{t.batch.day}</th>
+                    <th class="label text-right py-3 pr-8 font-medium">°C</th>
+                    <th class="label text-right py-3 pr-8 font-medium">pH</th>
+                    <th class="label text-right py-3 pr-8 font-medium">Baumé</th>
+                    <th class="label text-right py-3 pr-8 font-medium">Brix</th>
+                    <th class="label text-left py-3 font-medium">Stage</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {readings.map((r) => (
+                    <tr class="border-b border-ink-900 hover:bg-ink-900/60 transition-colors">
+                      <td class="py-2 pr-8 text-ink-400">{r.day}</td>
+                      <td class="py-2 pr-8 text-right">{r.temp ?? '·'}</td>
+                      <td class="py-2 pr-8 text-right">{r.ph ?? '·'}</td>
+                      <td class="py-2 pr-8 text-right">{r.baume ?? '·'}</td>
+                      <td class="py-2 pr-8 text-right">{r.brix ?? '·'}</td>
+                      <td class="py-2 text-xs text-flare">
+                        {r.stage ? t.batch.stages[r.stage] : ''}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )
+        }
+      </section>
+
+      {/* ============ BATCH NOTES ============ */}
+      {
+        d.batchNotes && (
+          <section class="py-14 border-t border-ink-800">
+            <h2 class="label">{t.batch.notesLabel}</h2>
+            <p class="prose-body mt-4 text-lg">{d.batchNotes}</p>
+          </section>
         )
       }
-    </section>
 
-    {
-      d.batchNotes && (
-        <section class="mt-12 border-t border-rice-200 pt-8 max-w-2xl">
-          <h2 class="tabular text-xs uppercase tracking-[0.2em] text-rice-400">
-            {t.batch.notesLabel}
-          </h2>
-          <p class="mt-3 text-rice-800">{d.batchNotes}</p>
-        </section>
-      )
-    }
-
-    <div class="mt-12 max-w-2xl prose-sm">
-      <Content />
+      <div class="prose-body pb-8">
+        <Content />
+      </div>
     </div>
   </article>
 </Layout>

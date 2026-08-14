@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import { Image } from 'astro:assets';
+import logoMark from '../assets/logo-mark.png';
 import { t } from '../i18n/en';
 
 interface Props {
@@ -8,7 +10,7 @@ interface Props {
 }
 
 const { title, description = t.meta.defaultDescription } = Astro.props;
-const pageTitle = title ? `${title} — ${t.brand.name}` : t.brand.name;
+const pageTitle = title ? `${title} — ${t.brand.name}` : `${t.brand.name}`;
 
 const navItems = [
   { href: '/batches', label: t.nav.batches },
@@ -16,6 +18,9 @@ const navItems = [
   { href: '/journal', label: t.nav.journal },
   { href: '/about', label: t.nav.about },
 ];
+
+const path = Astro.url.pathname;
+const isActive = (href: string) => path === href || path.startsWith(href + '/');
 ---
 
 <!doctype html>
@@ -23,26 +28,56 @@ const navItems = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
+    <meta name="theme-color" content="#0b0a09" />
+
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:image" content="/favicon-512.png" />
+    <meta name="twitter:card" content="summary" />
+
+    {/* Preload the two faces used above the fold — avoids a flash of fallback
+        on the hero, which is the first thing anyone sees. */}
+    <link rel="preload" href="/fonts/plex-mono-500.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin />
+
     <meta name="generator" content={Astro.generator} />
   </head>
 
-  <body class="font-[family-name:var(--font-body)] min-h-screen flex flex-col">
-    <header class="border-b border-rice-200">
-      <nav class="max-w-5xl mx-auto px-6 py-5 flex items-baseline justify-between gap-6">
-        <a href="/" class="font-[family-name:var(--font-display)] text-xl tracking-tight">
-          {t.brand.name}
+  <body class="min-h-screen flex flex-col bg-ink-950">
+    <header class="sticky top-0 z-50 bg-ink-950/85 backdrop-blur-md border-b border-ink-800">
+      <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-8">
+        <a href="/" class="flex items-center gap-3 group shrink-0">
+          <Image
+            src={logoMark}
+            alt=""
+            width={28}
+            height={31}
+            class="w-7 h-auto transition-transform duration-300 group-hover:-translate-y-0.5"
+          />
+          {/* Wordmark as live text, not baked into the logo raster:
+              stays crisp at any size and can be swapped for Japanese later. */}
+          <span class="display text-[0.9375rem] tracking-tight hidden sm:block">
+            {t.brand.name}
+          </span>
         </a>
-        <ul class="flex gap-6 text-sm">
+
+        <ul class="flex items-center gap-6">
           {
             navItems.map((item) => (
               <li>
-                <a href={item.href} class="hover:text-accent transition-colors">
+                <a
+                  href={item.href}
+                  class:list={[
+                    'label transition-colors hover:text-ink-100',
+                    isActive(item.href) && 'text-flare',
+                  ]}
+                >
                   {item.label}
                 </a>
               </li>
@@ -52,16 +87,24 @@ const navItems = [
       </nav>
     </header>
 
-    <main class="flex-1 max-w-5xl mx-auto px-6 py-12 w-full">
+    <main class="flex-1 w-full">
       <slot />
     </main>
 
-    <footer class="border-t border-rice-200 mt-16">
-      <div
-        class="max-w-5xl mx-auto px-6 py-8 text-sm text-rice-600 flex flex-wrap gap-x-6 gap-y-2 justify-between"
-      >
-        <span>{t.footer.responsibly}</span>
-        <span>© {new Date().getFullYear()} {t.brand.name}. {t.footer.rights}</span>
+    <footer class="border-t border-ink-800 mt-24">
+      <div class="max-w-6xl mx-auto px-6 py-12">
+        <div class="flex flex-wrap gap-8 justify-between items-start">
+          <div>
+            <p class="display text-lg">{t.brand.name}</p>
+            <p class="label mt-2">{t.brand.nameJa}</p>
+          </div>
+          <div class="text-right">
+            <p class="label">{t.footer.responsibly}</p>
+            <p class="label mt-2 text-ink-500">
+              © {new Date().getFullYear()} · {t.footer.rights}
+            </p>
+          </div>
+        </div>
       </div>
     </footer>
   </body>

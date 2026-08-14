@@ -1,35 +1,53 @@
 ---
 /**
- * Designed placeholder — NOT a broken image.
+ * Designed placeholder — not a broken image.
  *
- * Photography is backfilled later (PLAN.md §0 decision 7), and the site has to look
- * intentional while empty and simply improve as photos land. A tonal block at the
- * correct aspect ratio holds the layout so nothing reflows when a real image arrives.
+ * Photography is backfilled later, so the site has to look intentional while
+ * empty and simply improve as photos land. This echoes the five-arch motif
+ * from the logo, so an empty slot reads as brand furniture rather than a gap.
+ * Holds the correct aspect ratio, so nothing reflows when a real photo arrives.
  */
 interface Props {
   label?: string;
-  /** width/height, e.g. 3/4 for a bottle shot, 1 for a square label */
+  /** width/height — 3/4 for a bottle shot, 1 for a square label */
   ratio?: number;
   class?: string;
 }
 
 const { label, ratio = 3 / 4, class: className = '' } = Astro.props;
+
+// Five arches, mirrored around the centre, tallest in the middle — same
+// proportions as the mark.
+const arches = [0.52, 0.72, 1, 0.72, 0.52];
 ---
 
 <div
-  class={`relative overflow-hidden bg-rice-100 border border-rice-200 flex items-center justify-center ${className}`}
+  class={`relative overflow-hidden bg-ink-900 border border-ink-800 ${className}`}
   style={`aspect-ratio: ${ratio};`}
   role="img"
-  aria-label={label ? `Placeholder for ${label}` : 'Image placeholder'}
+  aria-label={label ? `Placeholder image for ${label}` : 'Image placeholder'}
 >
+  <div class="absolute inset-0 flex items-end justify-center gap-[3%] px-[14%] pb-[18%]">
+    {
+      arches.map((h) => (
+        <div
+          class="flex-1 bg-ink-850 border-t border-x border-ink-800"
+          style={`height: ${h * 62}%; border-radius: 999px 999px 0 0;`}
+        />
+      ))
+    }
+  </div>
+
+  {/* Warm vignette from the top, hinting at the gradient without competing */}
   <div
-    class="absolute inset-0 opacity-[0.06]"
-    style="background-image: repeating-linear-gradient(45deg, currentColor 0 1px, transparent 1px 9px);"
+    class="absolute inset-0 pointer-events-none opacity-[0.07]"
+    style="background: radial-gradient(120% 80% at 50% 0%, var(--color-flare-warm), transparent 60%);"
   >
   </div>
+
   {
     label && (
-      <span class="tabular relative text-rice-400 text-sm tracking-[0.2em] uppercase">
+      <span class="label absolute bottom-3 left-0 right-0 text-center text-ink-500">
         {label}
       </span>
     )

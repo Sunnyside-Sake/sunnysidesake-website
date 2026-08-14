@@ -1,11 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Placeholder from '../components/Placeholder.astro';
+import { Image } from 'astro:assets';
+import logoMark from '../assets/logo-mark.png';
 import { t } from '../i18n/en';
 import { getCollection } from 'astro:content';
+import { loadReadings } from '../lib/readings';
 
-// Draft filter: visible in `npm run dev`, excluded from the production build.
-// Flipping `draft: false` in frontmatter IS the publish button. See PLAN.md §7.
 const batches = await getCollection('batches', ({ data }) =>
   import.meta.env.PROD ? data.draft !== true : true
 );
@@ -15,67 +16,130 @@ const released = batches
   .filter((b) => b.data.status === 'released')
   .sort((a, b) => (b.data.released?.getTime() ?? 0) - (a.data.released?.getTime() ?? 0));
 const latest = released[0];
+
+// Headline stat: total readings published across every batch. This is the
+// claim the whole brand rests on, so it should be a number, not an adjective.
+const totalReadings = batches.reduce((n, b) => n + loadReadings(b.data.id).length, 0);
 ---
 
 <Layout>
-  <section class="py-8 md:py-16">
-    <h1
-      class="font-[family-name:var(--font-display)] text-4xl md:text-6xl tracking-tight max-w-3xl"
+  {/* ============ HERO ============ */}
+  <section class="relative overflow-hidden border-b border-ink-800">
+    {/* Sunrise wash behind the mark — the logo gradient as ambient light */}
+    <div
+      class="absolute inset-0 pointer-events-none opacity-[0.16]"
+      style="background: radial-gradient(90% 60% at 50% 108%, var(--color-flare) 0%, var(--color-flare-warm) 25%, transparent 62%);"
     >
-      {t.brand.tagline}
-    </h1>
-    <p class="tabular mt-6 text-rice-600 tracking-[0.2em] uppercase text-sm">
-      {t.brand.nameJa}
-    </p>
+    </div>
+
+    <div class="relative max-w-6xl mx-auto px-6 pt-20 pb-24 md:pt-28 md:pb-32">
+      <Image src={logoMark} alt="" width={96} height={107} class="w-16 md:w-20 h-auto" />
+
+      <h1 class="display text-[2.5rem] leading-[1.05] md:text-6xl mt-10 max-w-4xl text-balance">
+        {t.brand.tagline}
+      </h1>
+
+      <p class="label mt-8">{t.brand.nameJa} · Queens, NY</p>
+
+      {
+        totalReadings > 0 && (
+          <p class="tabular mt-10 text-sm text-ink-400">
+            <span class="text-flare">{totalReadings}</span> readings published across{' '}
+            <span class="text-flare">{batches.length}</span>{' '}
+            {batches.length === 1 ? 'batch' : 'batches'}
+          </p>
+        )
+      }
+    </div>
   </section>
 
+  {/* ============ ACTIVE BATCH ============ */}
   {
     active && (
-      <section class="py-10 border-t border-rice-200">
-        <h2 class="tabular text-sm uppercase tracking-[0.2em] text-accent">
-          {t.home.activeBatchLabel}
-        </h2>
-        <div class="mt-6 grid md:grid-cols-[200px_1fr] gap-8 items-start">
-          <Placeholder label={`Batch ${active.data.id}`} class="max-w-[200px]" />
-          <div>
-            <h3 class="font-[family-name:var(--font-display)] text-2xl">
-              {t.batches.batchNumber} {active.data.id} — {active.data.name}
-            </h3>
-            <p class="mt-3 text-rice-600 max-w-prose">{active.data.thesis}</p>
-            <a
-              href={`/b/${active.data.id}`}
-              class="tabular inline-block mt-5 text-sm uppercase tracking-[0.15em] text-accent hover:underline"
-            >
-              {t.home.viewBatch} →
-            </a>
-          </div>
+      <section class="max-w-6xl mx-auto px-6 py-16 md:py-20">
+        <div class="flex items-center gap-3">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-flare opacity-60" />
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-flare" />
+          </span>
+          <h2 class="label text-flare">{t.home.activeBatchLabel}</h2>
         </div>
+
+        <a href={`/b/${active.data.id}`} class="group block mt-6">
+          <div class="grid md:grid-cols-[220px_1fr] gap-8 md:gap-10 items-start">
+            <Placeholder label={`Batch ${active.data.id}`} class="max-w-[220px]" />
+            <div>
+              <p class="tabular text-sm text-ink-500">
+                {t.batches.batchNumber} {active.data.id}
+              </p>
+              <h3 class="display text-3xl md:text-4xl mt-2 group-hover:text-flare transition-colors">
+                {active.data.name}
+              </h3>
+              <p class="prose-body mt-5 text-lg">{active.data.thesis}</p>
+              <span class="label mt-6 inline-block text-flare">
+                {t.home.viewBatch} →
+              </span>
+            </div>
+          </div>
+        </a>
       </section>
     )
   }
 
+  {/* ============ LATEST RELEASE ============ */}
   {
     latest && (
-      <section class="py-10 border-t border-rice-200">
-        <h2 class="tabular text-sm uppercase tracking-[0.2em] text-rice-600">
-          {t.home.latestReleaseLabel}
-        </h2>
-        <div class="mt-6 grid md:grid-cols-[200px_1fr] gap-8 items-start">
-          <Placeholder label={`Batch ${latest.data.id}`} class="max-w-[200px]" />
-          <div>
-            <h3 class="font-[family-name:var(--font-display)] text-2xl">
-              {t.batches.batchNumber} {latest.data.id} — {latest.data.name}
-            </h3>
-            <p class="mt-3 text-rice-600 max-w-prose">{latest.data.thesis}</p>
-            <a
-              href={`/b/${latest.data.id}`}
-              class="tabular inline-block mt-5 text-sm uppercase tracking-[0.15em] text-accent hover:underline"
-            >
-              {t.home.viewBatch} →
-            </a>
+      <section class="max-w-6xl mx-auto px-6 pb-16 md:pb-20">
+        <div class="arch-rule mb-10" />
+        <h2 class="label">{t.home.latestReleaseLabel}</h2>
+
+        <a href={`/b/${latest.data.id}`} class="group block mt-6">
+          <div class="grid md:grid-cols-[220px_1fr] gap-8 md:gap-10 items-start">
+            <Placeholder label={`Batch ${latest.data.id}`} class="max-w-[220px]" />
+            <div>
+              <p class="tabular text-sm text-ink-500">
+                {t.batches.batchNumber} {latest.data.id}
+              </p>
+              <h3 class="display text-3xl md:text-4xl mt-2 group-hover:text-flare transition-colors">
+                {latest.data.name}
+              </h3>
+              <p class="prose-body mt-5 text-lg">{latest.data.thesis}</p>
+              {latest.data.tastingNotes.length > 0 && (
+                <p class="label mt-5 text-ink-500">
+                  {latest.data.tastingNotes.join(' · ')}
+                </p>
+              )}
+              <span class="label mt-6 inline-block text-flare">
+                {t.home.viewBatch} →
+              </span>
+            </div>
           </div>
-        </div>
+        </a>
       </section>
     )
   }
+
+  {/* ============ NEWSLETTER ============ */}
+  <section class="border-t border-ink-800">
+    <div class="max-w-6xl mx-auto px-6 py-16 md:py-20">
+      <h2 class="display text-2xl md:text-3xl max-w-xl">{t.newsletter.heading}</h2>
+      {/* TODO Phase 5: wire to Buttondown. Inert until then — deliberately
+          not a fake form that silently swallows an address. */}
+      <form class="mt-8 flex flex-wrap gap-3 max-w-md" onsubmit="return false;">
+        <input
+          type="email"
+          placeholder={t.newsletter.placeholder}
+          disabled
+          class="tabular flex-1 min-w-[240px] bg-ink-900 border border-ink-800 px-4 py-3 text-sm placeholder:text-ink-500 focus:outline-none focus:border-flare transition-colors disabled:opacity-60"
+        />
+        <button
+          type="submit"
+          disabled
+          class="label bg-ink-100 text-ink-950 px-6 py-3 hover:bg-flare transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          {t.newsletter.submit}
+        </button>
+      </form>
+    </div>
+  </section>
 </Layout>
