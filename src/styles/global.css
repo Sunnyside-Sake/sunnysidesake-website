@@ -1,4 +1,8 @@
 @import "tailwindcss";
+/* Theme token swaps. Imported here (CSS requires @import at the top), but the
+   selectors are html[data-theme=…] at specificity (0,1,1), which outranks the
+   :root declarations Tailwind emits from @theme — so order does not matter. */
+@import "./themes.css";
 
 /* ============================================================
    TYPE — self-hosted, latin subset only.

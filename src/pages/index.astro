@@ -33,7 +33,9 @@ const totalReadings = batches.reduce((n, b) => n + loadReadings(b.data.id).lengt
     </div>
 
     <div class="relative max-w-6xl mx-auto px-6 pt-20 pb-24 md:pt-28 md:pb-32">
-      <Image src={logoMark} alt="" width={96} height={107} class="w-16 md:w-20 h-auto" />
+      <span class="logo-chip inline-flex">
+        <Image src={logoMark} alt="" width={96} height={107} class="w-16 md:w-20 h-auto" />
+      </span>
 
       <h1 class="display text-[2.5rem] leading-[1.05] md:text-6xl mt-10 max-w-4xl text-balance">
         {t.brand.tagline}

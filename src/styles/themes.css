@@ -1,0 +1,125 @@
+/* ============================================================
+   THEMES
+   ============================================================
+   Each theme is a pure token swap. Utility classes (bg-ink-950,
+   text-flare, …) never change — only the values behind them — so
+   switching is instant at runtime with no rebuild and no component
+   edits. Add a theme by copying a block and changing values.
+
+   NAMING: the `ink` scale runs GROUND → TEXT, not dark → light.
+     ink-950  page background      ink-800  borders
+     ink-900  raised surface       ink-500  faint text
+     ink-850  inset surface        ink-400  secondary text
+     ink-700  strong border        ink-100  primary text
+   In light themes the literal colours invert but the ROLES hold, so
+   every component keeps working untouched. Read the scale as
+   "distance from the page ground", not as brightness.
+
+   `--logo-chip` exists because the brand mark has white outlines that
+   vanish on a light ground. Dark themes leave it transparent; light
+   themes put the mark on a dark chip, which is a legitimate brand
+   treatment rather than a fabricated light-mode logo variant.
+   ============================================================ */
+
+/* ---------- EMBER — default. Warm near-black, glowing orange. ----------
+   Derived directly from the logo: #0b0a09 ground (not pure black, which
+   makes the orange vibrate) and the arch gradient as a sparing accent.
+   Feel: technical, warm, lit from below. */
+html[data-theme='ember'] {
+  --color-ink-950: #0b0a09;
+  --color-ink-900: #121110;
+  --color-ink-850: #1a1817;
+  --color-ink-800: #262220;
+  --color-ink-700: #3a3431;
+  --color-ink-500: #6b625c;
+  --color-ink-400: #8a817a;
+  --color-ink-200: #c8c1ba;
+  --color-ink-100: #ede9e4;
+
+  --color-flare-deep: #ff4537;
+  --color-flare: #ff573c;
+  --color-flare-warm: #ff8449;
+
+  --logo-chip: transparent;
+  --logo-chip-pad: 0px;
+}
+
+/* ---------- SUMI 墨 — austere near-monochrome. ----------
+   Cooler and flatter than ember. Orange is rationed hard: reserved for
+   live data and active states only, so a number carries weight because
+   almost nothing else is coloured.
+   Feel: gallery, restrained, maximum exclusivity signal. */
+html[data-theme='sumi'] {
+  --color-ink-950: #08080a;
+  --color-ink-900: #101014;
+  --color-ink-850: #16161b;
+  --color-ink-800: #232329;
+  --color-ink-700: #35353d;
+  --color-ink-500: #61616b;
+  --color-ink-400: #8b8b95;
+  --color-ink-200: #c9c9d0;
+  --color-ink-100: #f5f5f7;
+
+  --color-flare-deep: #ff5a3d;
+  --color-flare: #ff6b4a;
+  --color-flare-warm: #ff8f66;
+
+  --logo-chip: transparent;
+  --logo-chip-pad: 0px;
+}
+
+/* ---------- KOHAKU 琥珀 — amber, cellar-warm. ----------
+   Browner ground and a creamier text tone. Accent shifts from red
+   toward amber, so it reads less "alert" and more "aged".
+   Feel: wood, cellar, inviting. */
+html[data-theme='kohaku'] {
+  --color-ink-950: #12100c;
+  --color-ink-900: #1a1712;
+  --color-ink-850: #221d16;
+  --color-ink-800: #302921;
+  --color-ink-700: #453a2e;
+  --color-ink-500: #7a6b58;
+  --color-ink-400: #9c8b74;
+  --color-ink-200: #d8cab4;
+  --color-ink-100: #f0e6d8;
+
+  --color-flare-deep: #ff7a35;
+  --color-flare: #ffa04a;
+  --color-flare-warm: #ffc078;
+
+  --logo-chip: transparent;
+  --logo-chip-pad: 0px;
+}
+
+/* ---------- KURA 蔵 — light paper. ----------
+   The genuine opposite direction: warm paper stock, deep charcoal text,
+   a deeper orange because bright #ff573c on white is harsh and fails
+   contrast on small text.
+   Feel: editorial, craft, print. Closer to how most sake brands present.
+   Worth comparing precisely because it contradicts the logo's instinct. */
+html[data-theme='kura'] {
+  --color-ink-950: #f7f4ee;
+  --color-ink-900: #ffffff;
+  --color-ink-850: #f0ebe1;
+  --color-ink-800: #e0d9cd;
+  --color-ink-700: #c9c0b0;
+  --color-ink-500: #9a9083;
+  --color-ink-400: #6e655a;
+  --color-ink-200: #3a342d;
+  --color-ink-100: #1a1714;
+
+  --color-flare-deep: #c23f22;
+  --color-flare: #d94a2b;
+  --color-flare-warm: #e87440;
+
+  /* Mark needs a dark ground here or its white outlines disappear. */
+  --logo-chip: #0b0a09;
+  --logo-chip-pad: 6px;
+}
+
+/* Chip treatment for the header/hero mark. No-op on dark themes. */
+.logo-chip {
+  background: var(--logo-chip);
+  padding: var(--logo-chip-pad);
+  border-radius: 3px;
+}

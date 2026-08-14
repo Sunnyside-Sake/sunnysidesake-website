@@ -1,0 +1,98 @@
+---
+/**
+ * DEV-ONLY theme switcher.
+ *
+ * Rendered only when import.meta.env.DEV, so it never reaches a build. Exists
+ * purely to compare directions back to back while the brand is unsettled.
+ * Production ships whatever `defaultTheme` says in src/config/themes.ts.
+ */
+import { themes, defaultTheme } from '../config/themes';
+---
+
+<div
+  id="theme-switcher"
+  class="fixed bottom-4 left-4 z-[999] font-[family-name:var(--font-mono)] text-[11px]"
+>
+  <button
+    id="theme-toggle"
+    class="flex items-center gap-2 px-3 py-2 bg-ink-900 border border-ink-700 text-ink-200 hover:border-flare transition-colors"
+    aria-expanded="false"
+    aria-controls="theme-list"
+  >
+    <span class="inline-block h-2 w-2 rounded-full bg-flare"></span>
+    <span id="theme-current">{defaultTheme}</span>
+    <span class="text-ink-500">▲</span>
+  </button>
+
+  <ul
+    id="theme-list"
+    hidden
+    class="mb-2 absolute bottom-full left-0 w-72 bg-ink-900 border border-ink-700 divide-y divide-ink-800"
+  >
+    {
+      themes.map((theme) => (
+        <li>
+          <button
+            data-theme-id={theme.id}
+            class="theme-option w-full text-left px-3 py-2.5 hover:bg-ink-850 transition-colors"
+          >
+            <span class="flex items-baseline gap-2">
+              <span class="text-ink-100">{theme.name}</span>
+              <span class="text-ink-500">{theme.nameJa}</span>
+            </span>
+            <span class="block mt-1 text-ink-400 leading-snug">{theme.note}</span>
+          </button>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<script is:inline data-default-theme={defaultTheme}>
+  (() => {
+    const root = document.documentElement;
+    const KEY = 'sunnyside-theme';
+    const fallback = document.currentScript?.dataset.defaultTheme || 'ember';
+
+    const apply = (id) => {
+      root.setAttribute('data-theme', id);
+      const label = document.getElementById('theme-current');
+      if (label) label.textContent = id;
+      try {
+        localStorage.setItem(KEY, id);
+      } catch {}
+    };
+
+    // Restore the last comparison across reloads.
+    let saved = null;
+    try {
+      saved = localStorage.getItem(KEY);
+    } catch {}
+    apply(saved || root.getAttribute('data-theme') || fallback);
+
+    const toggle = document.getElementById('theme-toggle');
+    const list = document.getElementById('theme-list');
+
+    toggle?.addEventListener('click', () => {
+      const open = !list.hidden;
+      list.hidden = open;
+      toggle.setAttribute('aria-expanded', String(!open));
+    });
+
+    document.querySelectorAll('.theme-option').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        apply(btn.dataset.themeId);
+        list.hidden = true;
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Alt+T cycles, for fast back-and-forth comparison.
+    document.addEventListener('keydown', (e) => {
+      if (!e.altKey || e.key.toLowerCase() !== 't') return;
+      const ids = [...document.querySelectorAll('.theme-option')].map((b) => b.dataset.themeId);
+      const cur = root.getAttribute('data-theme');
+      apply(ids[(ids.indexOf(cur) + 1) % ids.length]);
+    });
+  })();
+</script>

@@ -3,6 +3,8 @@ import '../styles/global.css';
 import { Image } from 'astro:assets';
 import logoMark from '../assets/logo-mark.png';
 import { t } from '../i18n/en';
+import { defaultTheme } from '../config/themes';
+import ThemeSwitcher from '../components/ThemeSwitcher.astro';
 
 interface Props {
   title?: string;
@@ -24,7 +26,7 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
 ---
 
 <!doctype html>
-<html lang={t.locale}>
+<html lang={t.locale} data-theme={defaultTheme}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -53,13 +55,15 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
     <header class="sticky top-0 z-50 bg-ink-950/85 backdrop-blur-md border-b border-ink-800">
       <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-8">
         <a href="/" class="flex items-center gap-3 group shrink-0">
-          <Image
-            src={logoMark}
-            alt=""
-            width={28}
-            height={31}
-            class="w-7 h-auto transition-transform duration-300 group-hover:-translate-y-0.5"
-          />
+          <span class="logo-chip inline-flex">
+            <Image
+              src={logoMark}
+              alt=""
+              width={28}
+              height={31}
+              class="w-7 h-auto transition-transform duration-300 group-hover:-translate-y-0.5"
+            />
+          </span>
           {/* Wordmark as live text, not baked into the logo raster:
               stays crisp at any size and can be swapped for Japanese later. */}
           <span class="display text-[0.9375rem] tracking-tight hidden sm:block">
@@ -107,5 +111,8 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
         </div>
       </div>
     </footer>
+
+    {/* Dev only — never reaches a build. */}
+    {import.meta.env.DEV && <ThemeSwitcher />}
   </body>
 </html>
