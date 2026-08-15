@@ -94,6 +94,65 @@ const batches = defineCollection({
   }),
 });
 
+/**
+ * Makgeolli — a separate collection, not a flag on `batches`.
+ *
+ * Korean rice wine is a different product with different vocabulary: nuruk
+ * rather than koji, no seimaibuai and therefore no grade, and no SMV. Forcing
+ * it through a sake-shaped schema would mean a pile of inapplicable fields and
+ * a vitals grid full of blanks.
+ *
+ * Wildflower is the awkward case that proves the point: it is labelled
+ * "Sakegolli" and uses BOTH nuruk and koji with Yamada Nishiki, so `koji` and
+ * `polishRatio` exist here as optional — a hybrid needs both vocabularies.
+ */
+const makgeolli = defineCollection({
+  loader: glob({ pattern: '**/index.md', base: './src/content/makgeolli' }),
+  schema: ({ image }) => z.object({
+    // Own numbering space. QR target is /m/001, parallel to sake's /b/001 —
+    // short enough to keep the code sparse, and it can never collide.
+    id: z.string().regex(/^\d{3}$/, 'Makgeolli id must be zero-padded 3 digits'),
+
+    name: z.string(),
+    nameKo: z.string().optional(),
+    tagline: z.string(),
+    thesis: z.string().optional(),
+
+    status: z.enum(['released', 'active']),
+    draft: z.boolean().default(false),
+
+    accent: z.string().regex(/^#[0-9a-f]{6}$/i),
+    accentWarm: z.string().regex(/^#[0-9a-f]{6}$/i),
+
+    brewStarted: z.coerce.date().optional(),
+    released: z.coerce.date().optional(),
+
+    // Ingredients
+    rice: z.string().optional(),
+    nuruk: z.string().optional(),
+    koji: z.string().optional(),        // hybrids only
+    polishRatio: z.number().optional(), // hybrids only
+    water: z.string().optional(),
+    extras: z.string().optional(),      // Grace: Korean pears
+
+    // Makgeolli recipes get revised rather than renumbered.
+    revision: z.number().optional(),
+
+    abv: z.number().optional(),
+    tastingNotes: z.array(z.string()).default([]),
+    servingTemp: z.string().optional(),
+    pairing: z.array(z.string()).default([]),
+    batchNotes: z.string().optional(),
+    thanks: z.string().optional(),
+    artist: z.string().optional(),
+
+    bottle: image().optional(),
+    bottleAlt: image().optional(),
+    labelFront: image().optional(),
+    labelBack: image().optional(),
+  }),
+});
+
 const artists = defineCollection({
   loader: glob({ pattern: '**/index.md', base: './src/content/artists' }),
   schema: ({ image }) => z.object({
@@ -119,4 +178,4 @@ const journal = defineCollection({
   }),
 });
 
-export const collections = { batches, artists, journal };
+export const collections = { batches, makgeolli, artists, journal };

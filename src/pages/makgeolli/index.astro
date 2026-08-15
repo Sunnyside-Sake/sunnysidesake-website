@@ -1,0 +1,64 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Placeholder from '../../components/Placeholder.astro';
+import { Image } from 'astro:assets';
+import { t } from '../../i18n/en';
+import { getCollection } from 'astro:content';
+
+const items = (
+  await getCollection('makgeolli', ({ data }) =>
+    import.meta.env.PROD ? data.draft !== true : true
+  )
+).sort((a, b) => b.data.id.localeCompare(a.data.id));
+---
+
+<Layout title={t.makgeolli.title}>
+  <section class="max-w-6xl mx-auto px-6 pt-16 pb-12 md:pt-20">
+    <div class="flex flex-wrap items-baseline gap-4">
+      <h1 class="display text-4xl md:text-5xl">{t.makgeolli.title}</h1>
+      <span class="label text-ink-400">{t.makgeolli.titleKo}</span>
+    </div>
+    <p class="prose-body mt-5 text-lg">{t.makgeolli.intro}</p>
+    <div class="arch-rule mt-10"></div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-6 pb-20">
+    {items.length === 0 && <p class="label">{t.makgeolli.empty}</p>}
+
+    <ul class="grid grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
+      {
+        items.map((item) => (
+          <li>
+            <a href={`/m/${item.data.id}`} class="group block">
+              {item.data.bottle ? (
+                <Image
+                  src={item.data.bottle}
+                  alt={`${item.data.name} bottle`}
+                  widths={[400, 800]}
+                  sizes="(min-width:1024px) 320px, 45vw"
+                  class="w-full aspect-[3/4] object-cover border border-ink-800"
+                />
+              ) : (
+                <Placeholder label={item.data.name} />
+              )}
+
+              <div class="mt-4 flex items-baseline justify-between gap-3">
+                <span class="tabular text-sm text-ink-500">{item.data.id}</span>
+                {item.data.revision && (
+                  <span class="tabular text-xs text-ink-500">
+                    {t.makgeolli.revision} {item.data.revision}
+                  </span>
+                )}
+              </div>
+
+              <h2 class="display text-xl mt-1 group-hover:text-flare transition-colors">
+                {item.data.name}
+              </h2>
+              <p class="mt-2 text-sm text-ink-400">“{item.data.tagline}”</p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Layout>

@@ -17,7 +17,8 @@ export const en = {
   },
 
   nav: {
-    batches: 'Batches',
+    batches: 'Sake',
+    makgeolli: 'Makgeolli',
     artists: 'Artists',
     journal: 'Journal',
     about: 'About',
@@ -75,6 +76,17 @@ export const en = {
     day: 'Day',
     noReadings: 'No readings recorded for this batch.',
     stillFermenting: 'This batch is still fermenting. Data updates as readings come in.',
+  },
+
+  makgeolli: {
+    title: 'Makgeolli',
+    titleKo: '막걸리',
+    intro: 'Korean rice wine. Different grain, different culture, same kitchen.',
+    empty: 'No makgeolli published yet.',
+    batchNumber: 'Batch',
+    revision: 'Revision',
+    nuruk: 'Nuruk',
+    extras: 'Extras',
   },
 
   artists: {

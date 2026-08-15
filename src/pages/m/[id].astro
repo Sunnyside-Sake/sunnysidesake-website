@@ -1,0 +1,183 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Placeholder from '../../components/Placeholder.astro';
+import { Image } from 'astro:assets';
+import { t } from '../../i18n/en';
+import { getCollection, render } from 'astro:content';
+
+/**
+ * QR target for makgeolli. /m/001 — parallel to sake's /b/001, own numbering
+ * space so the two product lines can never collide. Same rules apply: printed
+ * on labels, therefore permanent and never language-redirected.
+ */
+export async function getStaticPaths() {
+  const items = await getCollection('makgeolli', ({ data }) =>
+    import.meta.env.PROD ? data.draft !== true : true
+  );
+  return items.map((item) => ({ params: { id: item.data.id }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+const d = item.data;
+
+const fmt = (dt?: Date) =>
+  dt?.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+
+const vitals = [
+  { label: t.batch.rice, value: d.rice },
+  { label: t.makgeolli.nuruk, value: d.nuruk },
+  { label: t.batch.koji, value: d.koji },
+  { label: t.batch.polishRatio, value: d.polishRatio ? `${d.polishRatio}%` : undefined },
+  { label: t.batch.water, value: d.water },
+  { label: t.makgeolli.extras, value: d.extras },
+  { label: t.batch.abv, value: d.abv ? `${d.abv}%` : undefined },
+  { label: t.makgeolli.revision, value: d.revision },
+  { label: t.batch.brewStarted, value: fmt(d.brewStarted) },
+  { label: t.batch.released, value: fmt(d.released) },
+].filter((v) => v.value !== undefined && v.value !== null && v.value !== '');
+---
+
+<Layout title={`${d.name} — ${t.makgeolli.title}`} description={d.thesis ?? d.tagline}>
+  <article
+    style={`--color-flare: ${d.accent}; --color-flare-warm: ${d.accentWarm}; --color-flare-deep: ${d.accent};`}
+  >
+    <section class="relative overflow-hidden border-b border-ink-800">
+      <div
+        class="absolute inset-0 pointer-events-none opacity-[0.11]"
+        style="background: radial-gradient(80% 60% at 15% 110%, var(--color-flare) 0%, transparent 60%);"
+      >
+      </div>
+
+      <div class="relative max-w-6xl mx-auto px-6 pt-14 pb-14">
+        <div class="flex items-center gap-4">
+          <span class="tabular text-sm text-ink-500">
+            {t.makgeolli.title} {d.id}
+          </span>
+          {
+            d.status === 'active' && (
+              <span class="label flex items-center gap-2 text-flare">
+                <span class="inline-block h-1.5 w-1.5 rounded-full bg-flare animate-pulse" />
+                {t.batches.active}
+              </span>
+            )
+          }
+        </div>
+
+        <h1 class="display text-4xl md:text-6xl mt-3">{d.name}</h1>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mt-3">
+          {d.nameKo && <span class="label text-ink-400">{d.nameKo}</span>}
+          {
+            d.revision && (
+              <span class="tabular text-xs text-ink-500">
+                {t.makgeolli.revision} {d.revision}
+              </span>
+            )
+          }
+        </div>
+
+        <p class="display text-2xl md:text-3xl mt-8 text-flare">“{d.tagline}”</p>
+
+        {
+          d.thesis && (
+            <div class="mt-8 max-w-2xl border-l-2 border-flare pl-5">
+              <p class="label">{t.batch.thesisLabel}</p>
+              <p class="prose-body text-lg mt-3">{d.thesis}</p>
+            </div>
+          )
+        }
+      </div>
+    </section>
+
+    <div class="max-w-6xl mx-auto px-6">
+      <section class="grid md:grid-cols-[280px_1fr] gap-10 md:gap-14 py-14 items-start">
+        <div class="max-w-[280px] w-full flex flex-col gap-4">
+          {
+            d.bottle ? (
+              <Image
+                src={d.bottle}
+                alt={`${d.name} bottle`}
+                widths={[280, 560]}
+                sizes="280px"
+                class="w-full h-auto border border-ink-800"
+              />
+            ) : (
+              <Placeholder label={d.name} />
+            )
+          }
+          {
+            d.labelFront && (
+              <Image
+                src={d.labelFront}
+                alt={`${d.name} front label`}
+                widths={[280, 560]}
+                sizes="280px"
+                class="w-full h-auto border border-ink-800"
+              />
+            )
+          }
+        </div>
+
+        <div>
+          {
+            d.tastingNotes.length > 0 && (
+              <div>
+                <h2 class="label">{t.batch.sensoryLabel}</h2>
+                <p class="display text-2xl mt-3">{d.tastingNotes.join(' · ')}</p>
+              </div>
+            )
+          }
+
+          {
+            vitals.length > 0 && (
+              <div class="mt-8">
+                <h2 class="label">{t.batch.vitalsLabel}</h2>
+                <dl class="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-px bg-ink-800 border border-ink-800">
+                  {vitals.map((v) => (
+                    <div class="bg-ink-950 px-4 py-3">
+                      <dt class="label text-ink-500">{v.label}</dt>
+                      <dd class="tabular text-lg mt-1">{v.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            )
+          }
+
+          {
+            d.labelBack && (
+              <div class="mt-10">
+                <h2 class="label">{t.batch.labelLabel}</h2>
+                <Image
+                  src={d.labelBack}
+                  alt={`${d.name} back label`}
+                  widths={[320, 640]}
+                  sizes="320px"
+                  class="mt-3 w-full max-w-[320px] h-auto border border-ink-800"
+                />
+              </div>
+            )
+          }
+        </div>
+      </section>
+
+      {
+        d.batchNotes && (
+          <section class="py-14 border-t border-ink-800">
+            <h2 class="label">{t.batch.notesLabel}</h2>
+            <p class="prose-body mt-4 text-lg">{d.batchNotes}</p>
+          </section>
+        )
+      }
+
+      <div class="prose-body pb-8">
+        <Content />
+      </div>
+    </div>
+  </article>
+</Layout>

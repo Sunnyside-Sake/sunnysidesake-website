@@ -16,6 +16,7 @@ const pageTitle = title ? `${title} — ${t.brand.name}` : `${t.brand.name}`;
 
 const navItems = [
   { href: '/batches', label: t.nav.batches },
+  { href: '/makgeolli', label: t.nav.makgeolli },
   { href: '/artists', label: t.nav.artists },
   { href: '/journal', label: t.nav.journal },
   { href: '/about', label: t.nav.about },
@@ -53,7 +54,12 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
 
   <body class="min-h-screen flex flex-col bg-ink-950">
     <header class="sticky top-0 z-50 bg-ink-950/85 backdrop-blur-md border-b border-ink-800">
-      <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-8">
+      {/* Wraps to a second row below sm: five tracked-out uppercase items plus
+          the mark measure ~455px, which overflows a 375px phone and drags the
+          whole page sideways. */}
+      <nav
+        class="max-w-6xl mx-auto px-6 py-3 sm:py-0 sm:h-16 flex flex-wrap sm:flex-nowrap items-center justify-between gap-x-8 gap-y-2"
+      >
         <a href="/" class="flex items-center gap-3 group shrink-0">
           <span class="logo-chip inline-flex">
             <Image
@@ -71,7 +77,7 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
           </span>
         </a>
 
-        <ul class="flex items-center gap-6">
+        <ul class="flex flex-wrap items-center gap-x-5 gap-y-1 sm:gap-x-6">
           {
             navItems.map((item) => (
               <li>
