@@ -1,24 +1,27 @@
 ---
 id: "002"
-name: Catdog
-tagline: Best of both
+name: Thousand and one stars
+tagline: All the stars plus one
 status: released
 draft: false
 
-accent: "#32b18e"
-accentWarm: "#4ec07a"
+accent: "#6bb5ee"
+accentWarm: "#65c6eb"
 
 rice: Yamada Nishiki
 polishRatio: 40
 koji: Aspergillus oryzae
-# Two yeasts — the "best of both" the label is referring to.
-yeast: 1001 & 1801
+yeast: "1001"
 water: NYC Tap
+
+# 40% seimaibuai — daiginjo territory.
+grade: Junmai Daiginjo
+
+thanks: Alewife Brewery & Sweet Avenue, Sunnyside Queens, NYC
 
 labelFront: "./label-front.png"
 labelBack: "./label-back.png"
 bottle: "./bottle.jpg"
-bottleAlt: "./bottle-alt.jpg"
 
 # TODO — not printed on the label, needs your records:
 #   brewStarted, released, abv, smv, acidity, tastingNotes, servingTemp,

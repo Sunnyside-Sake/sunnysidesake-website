@@ -17,6 +17,9 @@ koji: Aspergillus oryzae
 yeast: "1801"
 water: NYC Tap
 
+# 40% seimaibuai — daiginjo territory.
+grade: Junmai Daiginjo
+
 labelFront: "./label-front.png"
 labelBack: "./label-back.png"
 bottle: "./bottle.jpg"

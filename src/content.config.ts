@@ -59,6 +59,17 @@ const batches = defineCollection({
     yeast: z.string().optional(),
     water: z.string().optional(),
 
+    /**
+     * Sake grade, derived from seimaibuai (the % of the grain REMAINING).
+     *   <= 50%  junmai daiginjo
+     *   <= 60%  junmai ginjo
+     *   > 60%   junmai
+     * Stated explicitly rather than computed: the classification is Dan's
+     * call, and a wrong grade on a trade-facing site is the kind of error
+     * this audience notices immediately.
+     */
+    grade: z.string().optional(),
+
     // Collaborators / venues credited on the label.
     thanks: z.string().optional(),
     abv: z.number().optional(),
