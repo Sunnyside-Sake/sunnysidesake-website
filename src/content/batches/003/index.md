@@ -1,21 +1,20 @@
 ---
-# Data below is transcribed from the printed back label. Anything the label
-# does not state is left blank rather than guessed — see the TODO block.
-id: "001"
-name: Rodeo
-tagline: Not our first Rodeo
+id: "003"
+name: Thousand and one stars
+tagline: All the stars plus one
 status: released
 draft: false
 
-# Sampled from the label artwork. This batch's red became the house colour.
-accent: "#ff563c"
-accentWarm: "#ff7c47"
+accent: "#6bb5ee"
+accentWarm: "#65c6eb"
 
 rice: Yamada Nishiki
 polishRatio: 40
 koji: Aspergillus oryzae
-yeast: "1801"
+yeast: "1001"
 water: NYC Tap
+
+thanks: Alewife Brewery & Sweet Avenue, Sunnyside Queens, NYC
 
 labelFront: "./label-front.png"
 labelBack: "./label-back.png"

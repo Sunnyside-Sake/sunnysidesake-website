@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Placeholder from '../../components/Placeholder.astro';
+import { Image } from 'astro:assets';
 import { t } from '../../i18n/en';
 import { getCollection, render } from 'astro:content';
 import { loadReadings, stageMarkers } from '../../lib/readings';
@@ -50,6 +51,7 @@ const vitals = [
   { label: t.batch.polishRatio, value: d.polishRatio ? `${d.polishRatio}%` : undefined },
   { label: t.batch.koji, value: d.koji },
   { label: t.batch.yeast, value: d.yeast },
+  { label: t.batch.water, value: d.water },
   { label: t.batch.abv, value: d.abv ? `${d.abv}%` : undefined },
   { label: t.batch.smv, value: d.smv !== undefined ? `${d.smv > 0 ? '+' : ''}${d.smv}` : undefined },
   { label: t.batch.acidity, value: d.acidity },
@@ -58,8 +60,10 @@ const vitals = [
 ].filter((v) => v.value !== undefined && v.value !== null && v.value !== '');
 ---
 
-<Layout title={`${t.batches.batchNumber} ${d.id} — ${d.name}`} description={d.thesis}>
-  <article>
+<Layout title={`${t.batches.batchNumber} ${d.id} — ${d.name}`} description={d.thesis ?? d.tagline}>
+  {/* Per-batch accent: the mark is recoloured on every label, so the page
+      follows the bottle in your hand rather than a fixed house colour. */}
+  <article style={`--color-flare: ${d.accent}; --color-flare-warm: ${d.accentWarm}; --color-flare-deep: ${d.accent};`}>
     {/* ============ HEADER ============ */}
     <section class="relative overflow-hidden border-b border-ink-800">
       <div
@@ -86,20 +90,48 @@ const vitals = [
         <h1 class="display text-4xl md:text-6xl mt-3">{d.name}</h1>
         {d.nameJa && <p class="label mt-3 text-ink-400">{d.nameJa}</p>}
 
-        {/* Thesis leads: a claim, not a vibe. */}
-        <div class="mt-10 max-w-2xl border-l-2 border-flare pl-5">
-          <p class="label">{t.batch.thesisLabel}</p>
-          <p class="display text-xl md:text-2xl mt-3 leading-snug text-ink-100">
-            {d.thesis}
-          </p>
-        </div>
+        {/* The label's own phrase leads. It already exists on the bottle, so
+            the page and the object in hand say the same thing. */}
+        <p class="display text-2xl md:text-3xl mt-8 text-flare">“{d.tagline}”</p>
+
+        {d.thesis && (
+          <div class="mt-8 max-w-2xl border-l-2 border-flare pl-5">
+            <p class="label">{t.batch.thesisLabel}</p>
+            <p class="prose-body text-lg mt-3">{d.thesis}</p>
+          </div>
+        )}
       </div>
     </section>
 
     <div class="max-w-6xl mx-auto px-6">
       {/* ============ SENSORY + VITALS ============ */}
       <section class="grid md:grid-cols-[280px_1fr] gap-10 md:gap-14 py-14 items-start">
-        <Placeholder label={`Batch ${d.id}`} class="max-w-[280px]" />
+        <div class="max-w-[280px] w-full flex flex-col gap-4">
+          {
+            d.bottle ? (
+              <Image
+                src={d.bottle}
+                alt={`${d.name} bottle`}
+                widths={[280, 560]}
+                sizes="280px"
+                class="w-full h-auto border border-ink-800"
+              />
+            ) : (
+              <Placeholder label={`Batch ${d.id}`} />
+            )
+          }
+          {
+            d.labelFront && (
+              <Image
+                src={d.labelFront}
+                alt={`${d.name} front label`}
+                widths={[280, 560]}
+                sizes="280px"
+                class="w-full h-auto border border-ink-800"
+              />
+            )
+          }
+        </div>
 
         <div>
           {
@@ -137,6 +169,30 @@ const vitals = [
                     </div>
                   ))}
                 </dl>
+              </div>
+            )
+          }
+
+          {
+            d.thanks && (
+              <p class="mt-8 text-sm text-ink-400">
+                <span class="label">{t.batch.thanksLabel}</span>{' '}
+                <span class="block mt-1">{d.thanks}</span>
+              </p>
+            )
+          }
+
+          {
+            d.labelBack && (
+              <div class="mt-10">
+                <h2 class="label">{t.batch.labelLabel}</h2>
+                <Image
+                  src={d.labelBack}
+                  alt={`${d.name} back label`}
+                  widths={[320, 640]}
+                  sizes="320px"
+                  class="mt-3 w-full max-w-[320px] h-auto border border-ink-800"
+                />
               </div>
             )
           }

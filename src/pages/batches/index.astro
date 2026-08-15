@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Placeholder from '../../components/Placeholder.astro';
+import { Image } from 'astro:assets';
 import { t } from '../../i18n/en';
 import { getCollection } from 'astro:content';
 import { loadReadings } from '../../lib/readings';
@@ -31,7 +32,13 @@ const counts = new Map(batches.map((b) => [b.data.id, loadReadings(b.data.id).le
           <li>
             <a href={`/b/${batch.data.id}`} class="group block">
               <div class="relative">
-                <Placeholder label={`Batch ${batch.data.id}`} />
+                {batch.data.bottle ? (
+                  <Image src={batch.data.bottle} alt={`${batch.data.name} bottle`}
+                    widths={[400, 800]} sizes="(min-width:1024px) 320px, 45vw"
+                    class="w-full aspect-[3/4] object-cover border border-ink-800" />
+                ) : (
+                  <Placeholder label={`Batch ${batch.data.id}`} />
+                )}
                 {batch.data.status === 'active' && (
                   <span class="label absolute top-3 left-3 flex items-center gap-2 bg-ink-950/80 backdrop-blur px-2 py-1 text-flare">
                     <span class="inline-block h-1.5 w-1.5 rounded-full bg-flare animate-pulse" />
@@ -53,9 +60,7 @@ const counts = new Map(batches.map((b) => [b.data.id, loadReadings(b.data.id).le
                 {batch.data.name}
               </h2>
 
-              <p class="prose-body mt-2 text-sm line-clamp-2 text-ink-400">
-                {batch.data.thesis}
-              </p>
+              <p class="mt-2 text-sm text-ink-400">“{batch.data.tagline}”</p>
             </a>
           </li>
         ))

@@ -23,13 +23,33 @@ const batches = defineCollection({
     name: z.string(),
     nameJa: z.string().optional(),
 
-    // The lead. A claim, not a vibe — what this batch was trying to do.
-    thesis: z.string(),
+    // The phrase printed on the back label — "Not our first Rodeo". These
+    // already exist on every bottle, so the site should use them rather than
+    // invent a parallel hook.
+    tagline: z.string(),
+
+    // Optional deeper claim: what the batch was actually trying to do and
+    // whether it worked. Written per batch; the tagline carries the page
+    // until this exists.
+    thesis: z.string().optional(),
+
+    /**
+     * Per-batch accent, sampled from the label artwork.
+     *
+     * The mark is recoloured for every batch — Rodeo red, Catdog teal,
+     * Thousand and one stars blue, Sassy Snow Angel mint. That is an existing
+     * brand system, so the site follows it instead of forcing one global
+     * accent. These override --color-flare* on the batch page.
+     */
+    accent: z.string().regex(/^#[0-9a-f]{6}$/i),
+    accentWarm: z.string().regex(/^#[0-9a-f]{6}$/i),
 
     status: z.enum(['released', 'active']),
     draft: z.boolean().default(false),
 
-    brewStarted: z.coerce.date(),
+    // Both optional: the printed labels do not carry dates, so real batches
+    // exist without them until the brew records are dug out.
+    brewStarted: z.coerce.date().optional(),
     released: z.coerce.date().optional(),
 
     // Vitals
@@ -37,6 +57,10 @@ const batches = defineCollection({
     polishRatio: z.number().optional(),
     koji: z.string().optional(),
     yeast: z.string().optional(),
+    water: z.string().optional(),
+
+    // Collaborators / venues credited on the label.
+    thanks: z.string().optional(),
     abv: z.number().optional(),
     smv: z.number().optional(),
     acidity: z.number().optional(),
@@ -53,7 +77,9 @@ const batches = defineCollection({
 
     // Co-located images, optimized at build. Relative paths: "./bottle.jpg"
     bottle: image().optional(),
-    label: image().optional(),
+    bottleAlt: image().optional(),
+    labelFront: image().optional(),
+    labelBack: image().optional(),
   }),
 });
 

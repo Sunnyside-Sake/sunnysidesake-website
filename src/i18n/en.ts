@@ -47,10 +47,14 @@ export const en = {
     notesLabel: 'Batch notes',
     labelArtBy: 'Label art by',
 
+    thanksLabel: 'With thanks to',
+    labelLabel: 'Back label',
+
     rice: 'Rice',
     polishRatio: 'Polishing ratio',
     koji: 'Koji',
     yeast: 'Yeast',
+    water: 'Water',
     abv: 'ABV',
     smv: 'SMV',
     acidity: 'Acidity',

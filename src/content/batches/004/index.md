@@ -1,20 +1,17 @@
 ---
-# Data below is transcribed from the printed back label. Anything the label
-# does not state is left blank rather than guessed — see the TODO block.
-id: "001"
-name: Rodeo
-tagline: Not our first Rodeo
+id: "004"
+name: Sassy Snow Angel
+tagline: The world is not ready
 status: released
 draft: false
 
-# Sampled from the label artwork. This batch's red became the house colour.
-accent: "#ff563c"
-accentWarm: "#ff7c47"
+accent: "#a6cff3"
+accentWarm: "#b7e4e7"
 
 rice: Yamada Nishiki
 polishRatio: 40
 koji: Aspergillus oryzae
-yeast: "1801"
+yeast: 1001 & 1801
 water: NYC Tap
 
 labelFront: "./label-front.png"

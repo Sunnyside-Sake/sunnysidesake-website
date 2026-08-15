@@ -1,25 +1,24 @@
 ---
-# Data below is transcribed from the printed back label. Anything the label
-# does not state is left blank rather than guessed — see the TODO block.
-id: "001"
-name: Rodeo
-tagline: Not our first Rodeo
+id: "002"
+name: Catdog
+tagline: Best of both
 status: released
 draft: false
 
-# Sampled from the label artwork. This batch's red became the house colour.
-accent: "#ff563c"
-accentWarm: "#ff7c47"
+accent: "#32b18e"
+accentWarm: "#4ec07a"
 
 rice: Yamada Nishiki
 polishRatio: 40
 koji: Aspergillus oryzae
-yeast: "1801"
+# Two yeasts — the "best of both" the label is referring to.
+yeast: 1001 & 1801
 water: NYC Tap
 
 labelFront: "./label-front.png"
 labelBack: "./label-back.png"
 bottle: "./bottle.jpg"
+bottleAlt: "./bottle-alt.jpg"
 
 # TODO — not printed on the label, needs your records:
 #   brewStarted, released, abv, smv, acidity, tastingNotes, servingTemp,
