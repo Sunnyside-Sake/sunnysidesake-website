@@ -13,7 +13,7 @@ export const en = {
   brand: {
     name: 'Sunnyside Sake',
     nameJa: 'サニーサイド',
-    tagline: 'Small-batch experimental sake. Every batch published in full.',
+    tagline: 'Small-batch experimental. Published in full.',
   },
 
   nav: {
@@ -81,7 +81,10 @@ export const en = {
   makgeolli: {
     title: 'Makgeolli',
     titleKo: '막걸리',
-    intro: 'Korean rice wine. Different grain, different culture, same kitchen.',
+    intro: 'Korean rice wine. A detour, not a line — made to see what happened.',
+    asideLabel: 'Off menu: makgeolli',
+    asideBody:
+      'Two one-off experiments in Korean rice wine, including a sakegolli that runs nuruk and koji together. Published here for the same reason everything else is.',
     empty: 'No makgeolli published yet.',
     batchNumber: 'Batch',
     revision: 'Revision',
@@ -113,6 +116,7 @@ export const en = {
   },
 
   footer: {
+    alsoMakgeolli: 'Also: makgeolli',
     responsibly: 'Please drink responsibly.',
     rights: 'All rights reserved.',
   },

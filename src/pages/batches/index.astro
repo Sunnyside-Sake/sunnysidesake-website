@@ -69,5 +69,16 @@ const counts = new Map(batches.map((b) => [b.data.id, loadReadings(b.data.id).le
         ))
       }
     </ul>
+
+    {/* Aside, not a second product line. Deliberately at the foot of the sake
+        index rather than in the nav — see the note in Layout.astro. */}
+    <aside class="mt-20 pt-10 border-t border-ink-800">
+      <a href="/makgeolli" class="group inline-block max-w-xl">
+        <p class="label group-hover:text-flare transition-colors">
+          {t.makgeolli.asideLabel} →
+        </p>
+        <p class="prose-body mt-3">{t.makgeolli.asideBody}</p>
+      </a>
+    </aside>
   </section>
 </Layout>
