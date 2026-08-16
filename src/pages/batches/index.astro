@@ -76,8 +76,18 @@ const counts = new Map(batches.map((b) => [b.data.id, loadReadings(b.data.id).le
               </h2>
 
               <p class="mt-2 text-sm text-ink-400">“{batch.data.tagline}”</p>
-              {batch.data.grade && (
-                <p class="label mt-2 text-ink-500">{batch.data.grade}</p>
+
+              {/* Grade and style together, matching the detail page: style is
+                  accented because nigori/namazake/sparkling change what is in
+                  the bottle, not just how it was milled. */}
+              {(batch.data.grade || batch.data.style.length > 0) && (
+                <p class="label mt-2 text-ink-500">
+                  {batch.data.grade}
+                  {batch.data.grade && batch.data.style.length > 0 && <span>{' · '}</span>}
+                  {batch.data.style.length > 0 && (
+                    <span class="text-flare">{batch.data.style.join(' · ')}</span>
+                  )}
+                </p>
               )}
             </a>
           </li>
