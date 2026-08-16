@@ -70,6 +70,13 @@ const batches = defineCollection({
      */
     grade: z.string().optional(),
 
+    /**
+     * Style descriptors that sit alongside the grade rather than replacing it —
+     * a sake can be Junmai Daiginjo AND nigori. Kept as an array because these
+     * stack (nigori, namazake, sparkling…).
+     */
+    style: z.array(z.string()).default([]),
+
     // Collaborators / venues credited on the label.
     thanks: z.string().optional(),
     abv: z.number().optional(),

@@ -72,10 +72,34 @@ export function neutralGains(bg, strength = 0.75) {
   return [gR / lw, gG / lw, gB / lw];
 }
 
+/**
+ * Largest gain spread we will accept.
+ *
+ * A wide spread means the sampled surface was not actually neutral, so
+ * "correcting" it drags the whole frame the other way. The case that set this
+ * limit: batch 004's photo samples the cloudy nigori in the bottle, which is
+ * genuinely cream rather than white. At full strength that produced a 0.479
+ * spread and turned warm restaurant light cold and blue — erasing the very
+ * cloudiness the picture exists to show.
+ */
+const MAX_SPREAD = 0.28;
+
+const spreadOf = ([r, g, b]) => Math.max(r, g, b) - Math.min(r, g, b);
+
 export async function neutralize(src, dest, strength = 0.75) {
   const bg = await measureBackground(src);
   if (!bg) return null;
-  const [gR, gG, gB] = neutralGains(bg, strength);
+
+  // Back the strength off until the correction is credible. If even a very
+  // gentle pass overshoots, there is no neutral reference worth trusting.
+  let applied = strength;
+  let gains = neutralGains(bg, applied);
+  while (spreadOf(gains) > MAX_SPREAD && applied > 0.1) {
+    applied = Math.round((applied - 0.05) * 100) / 100;
+    gains = neutralGains(bg, applied);
+  }
+  if (spreadOf(gains) > MAX_SPREAD) return null;
+  const [gR, gG, gB] = gains;
   await sharp(src)
     .recomb([
       [gR, 0, 0],
@@ -84,5 +108,5 @@ export async function neutralize(src, dest, strength = 0.75) {
     ])
     .jpeg({ quality: 86, mozjpeg: true })
     .toFile(dest);
-  return { gR, gG, gB, bg };
+  return { gR, gG, gB, bg, strength: applied, backedOff: applied < strength };
 }
