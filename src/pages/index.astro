@@ -4,6 +4,7 @@ import Placeholder from '../components/Placeholder.astro';
 import { Image } from 'astro:assets';
 import logoMark from '../assets/logo-mark.png';
 import logoMarkLight from '../assets/logo-mark-light.png';
+import heroImage from '../assets/hero.jpg';
 import { t } from '../i18n/en';
 import { getCollection } from 'astro:content';
 import { loadReadings } from '../lib/readings';
@@ -39,7 +40,10 @@ const totalReadings = batches.reduce((n, b) => n + loadReadings(b.data.id).lengt
     >
     </div>
 
-    <div class="relative max-w-6xl mx-auto px-6 pt-20 pb-24 md:pt-28 md:pb-32">
+    <div
+      class="relative max-w-6xl mx-auto px-6 pt-20 pb-24 md:pt-28 md:pb-32 grid md:grid-cols-[1fr_auto] gap-12 items-center"
+    >
+      <div>
       <span class="logo-chip inline-flex">
         <Image src={logoMark} alt="" width={96} height={107} class="logo-dark w-16 md:w-20 h-auto" />
         <Image
@@ -66,6 +70,18 @@ const totalReadings = batches.reduce((n, b) => n + loadReadings(b.data.id).lengt
           </p>
         )
       }
+      </div>
+
+      {/* Lineup shot: the range in one frame, which the headline claims but
+          cannot show. Sits beside the type on desktop, below it on mobile. */}
+      <Image
+        src={heroImage}
+        alt="Sunnyside Sake bottles"
+        widths={[380, 760]}
+        sizes="(min-width: 768px) 380px, 90vw"
+        class="w-full max-w-[380px] h-auto justify-self-end"
+        loading="eager"
+      />
     </div>
   </section>
 

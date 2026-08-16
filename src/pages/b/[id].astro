@@ -131,6 +131,17 @@ const vitals = [
             )
           }
           {
+            d.bottleAlt && (
+              <Image
+                src={d.bottleAlt}
+                alt={`${d.name}, alternate view`}
+                widths={[280, 560]}
+                sizes="280px"
+                class="w-full h-auto border border-ink-800"
+              />
+            )
+          }
+          {
             d.labelFront && (
               <Image
                 src={d.labelFront}

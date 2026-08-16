@@ -24,6 +24,8 @@ grade: Junmai Ginjo
 labelFront: "./label-front.png"
 labelBack: "./label-back.png"
 bottle: "./bottle.jpg"
+# The green-bottle format; the primary shot is the sake-style bottle.
+bottleAlt: "./bottle-alt.jpg"
 
 # TODO — not printed on the label, needs your records:
 #   brewStarted, released, abv, smv, acidity, tastingNotes, servingTemp,
