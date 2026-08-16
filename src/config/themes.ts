@@ -35,6 +35,12 @@ export const themes = [
     note: 'Cool neutral light grey. A studio backdrop that lets the bottles carry the colour.',
   },
   {
+    id: 'hai-plus',
+    name: 'Hai ++',
+    nameJa: '濃灰',
+    note: 'hai pushed 30% deeper and cooler. Overcast slate — more industrial, less studio.',
+  },
+  {
     id: 'kura',
     name: 'Kura',
     nameJa: '蔵',

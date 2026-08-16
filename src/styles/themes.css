@@ -141,6 +141,35 @@ html[data-theme='hai'] {
   --logo-chip-pad: 6px;
 }
 
+/* ---------- HAI++ 濃灰 — deeper, cooler grey-blue. ----------
+   hai's ground pushed 30% deeper in luminance and shifted toward slate.
+   Measured, not eyeballed: #c4c7ca is a 31% luminance drop from hai's
+   #e9eaeb, which is the brief.
+
+   The tradeoff is headroom. Total contrast against pure black falls from
+   18.1:1 on hai to 12.4:1 here, so every value below is pinned near the
+   edge of what still passes AA rather than chosen by eye. Going much
+   deeper than this stops being a light theme and starts failing.
+   Feel: overcast, colder, more industrial than hai. */
+html[data-theme='hai-plus'] {
+  --color-ink-950: #c4c7ca;
+  --color-ink-900: #dfe0e2;
+  --color-ink-850: #b6babe;
+  --color-ink-800: #a8adb1;
+  --color-ink-700: #686d79;
+  --color-ink-500: #4d525a;
+  --color-ink-400: #464a52;
+  --color-ink-200: #27292d;
+  --color-ink-100: #050505;
+
+  --color-flare-deep: #7d2410;
+  --color-flare: #932c14;
+  --color-flare-warm: #a8431f;
+
+  --logo-chip: #17191b;
+  --logo-chip-pad: 6px;
+}
+
 /* Chip treatment for the header/hero mark. No-op on dark themes. */
 .logo-chip {
   background: var(--logo-chip);
@@ -178,4 +207,13 @@ html[data-theme='kura'] .batch-themed {
   --color-flare: color-mix(in srgb, var(--batch-accent) 45%, #101112);
   --color-flare-warm: color-mix(in srgb, var(--batch-accent-warm) 50%, #101112);
   --color-flare-deep: color-mix(in srgb, var(--batch-accent) 40%, #101112);
+}
+
+/* hai-plus needs a STRONGER mix than the lighter themes, not the same one.
+   Its ground is 31% darker, so 45% leaves Grace at ~3.4:1. 32% is the
+   measured threshold where the worst case clears 4.5:1 here. */
+html[data-theme='hai-plus'] .batch-themed {
+  --color-flare: color-mix(in srgb, var(--batch-accent) 32%, #101112);
+  --color-flare-warm: color-mix(in srgb, var(--batch-accent-warm) 36%, #101112);
+  --color-flare-deep: color-mix(in srgb, var(--batch-accent) 28%, #101112);
 }
