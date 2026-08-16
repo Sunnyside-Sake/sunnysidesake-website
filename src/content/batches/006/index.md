@@ -21,6 +21,8 @@ water: NYC Tap
 # 60% seimaibuai — qualifies as ginjo.
 grade: Junmai Ginjo
 
+# WRKY 6.png — the acronym expanded to Water / Rice / Koji / Yeast,
+# each word in its own colour. Dan's pick, and the most colourful of the set.
 labelFront: "./label-front.png"
 labelBack: "./label-back.png"
 bottle: "./bottle.jpg"
