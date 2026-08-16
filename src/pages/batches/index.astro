@@ -31,13 +31,28 @@ const counts = new Map(batches.map((b) => [b.data.id, loadReadings(b.data.id).le
         batches.map((batch) => (
           <li>
             <a href={`/b/${batch.data.id}`} class="group block">
+              {/* Label artwork rather than photography.
+                  A grid amplifies inconsistency: six photos shot at different
+                  times, angles and lighting read as a scrapbook, however good
+                  each one is on its own. The labels are identical in framing,
+                  resolution and lighting, so the grid reads as a catalogue —
+                  and the per-batch recolouring of the arch is the brand system
+                  this page exists to show.
+                  Photography earns its place on the detail page, where each
+                  shot is seen alone and the unevenness never compounds.
+                  Tiles are 4:5 to match the artwork natively, so nothing is
+                  cropped. */}
               <div class="relative">
-                {batch.data.bottle ? (
+                {batch.data.labelFront ? (
+                  <Image src={batch.data.labelFront} alt={`${batch.data.name} label`}
+                    widths={[400, 800]} sizes="(min-width:1024px) 320px, 45vw"
+                    class="w-full aspect-[4/5] object-cover border border-ink-800" />
+                ) : batch.data.bottle ? (
                   <Image src={batch.data.bottle} alt={`${batch.data.name} bottle`}
                     widths={[400, 800]} sizes="(min-width:1024px) 320px, 45vw"
-                    class="w-full aspect-[3/4] object-cover border border-ink-800" />
+                    class="w-full aspect-[4/5] object-cover border border-ink-800" />
                 ) : (
-                  <Placeholder label={`Batch ${batch.data.id}`} />
+                  <Placeholder label={`Batch ${batch.data.id}`} ratio={4 / 5} />
                 )}
                 {batch.data.status === 'active' && (
                   <span class="label absolute top-3 left-3 flex items-center gap-2 bg-ink-950/80 backdrop-blur px-2 py-1 text-flare">

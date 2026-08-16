@@ -30,16 +30,25 @@ const items = (
         items.map((item) => (
           <li>
             <a href={`/m/${item.data.id}`} class="group block">
-              {item.data.bottle ? (
+              {/* Label artwork, matching the sake index — see the note there. */}
+              {item.data.labelFront ? (
+                <Image
+                  src={item.data.labelFront}
+                  alt={`${item.data.name} label`}
+                  widths={[400, 800]}
+                  sizes="(min-width:1024px) 320px, 45vw"
+                  class="w-full aspect-[4/5] object-cover border border-ink-800"
+                />
+              ) : item.data.bottle ? (
                 <Image
                   src={item.data.bottle}
                   alt={`${item.data.name} bottle`}
                   widths={[400, 800]}
                   sizes="(min-width:1024px) 320px, 45vw"
-                  class="w-full aspect-[3/4] object-cover border border-ink-800"
+                  class="w-full aspect-[4/5] object-cover border border-ink-800"
                 />
               ) : (
-                <Placeholder label={item.data.name} />
+                <Placeholder label={item.data.name} ratio={4 / 5} />
               )}
 
               <div class="mt-4 flex items-baseline justify-between gap-3">
