@@ -22,9 +22,11 @@ grade: Junmai
 
 labelFront: "./label-front.png"
 labelBack: "./label-back.png"
+# Shot at Asoko in NYC, where the bottles are sometimes featured. Served in
+# a masu with an overflow glass, against a wall of Japanese sake.
 bottle: "./bottle.jpg"
 # Candlelit bar shot. Silver Hill was never photographed alone against a
-# plain ground, so this is the most striking frame it appears in.
+# plain ground, so both of its images are in-situ rather than product shots.
 bottleAlt: "./bottle-alt.jpg"
 
 # TODO — not printed on the label, needs your records:
