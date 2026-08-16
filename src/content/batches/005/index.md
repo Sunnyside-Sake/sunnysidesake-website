@@ -23,6 +23,9 @@ grade: Junmai
 labelFront: "./label-front.png"
 labelBack: "./label-back.png"
 bottle: "./bottle.jpg"
+# Candlelit bar shot. Silver Hill was never photographed alone against a
+# plain ground, so this is the most striking frame it appears in.
+bottleAlt: "./bottle-alt.jpg"
 
 # TODO — not printed on the label, needs your records:
 #   brewStarted, released, abv, smv, acidity, tastingNotes, servingTemp,
