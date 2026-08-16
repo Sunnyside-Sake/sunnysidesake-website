@@ -29,6 +29,12 @@ export const themes = [
     note: 'Amber and cellar-warm. Reads aged rather than alert.',
   },
   {
+    id: 'hai',
+    name: 'Hai',
+    nameJa: '灰',
+    note: 'Cool neutral light grey. A studio backdrop that lets the bottles carry the colour.',
+  },
+  {
     id: 'kura',
     name: 'Kura',
     nameJa: '蔵',

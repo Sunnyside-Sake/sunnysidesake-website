@@ -102,18 +102,42 @@ html[data-theme='kura'] {
   --color-ink-900: #ffffff;
   --color-ink-850: #f0ebe1;
   --color-ink-800: #e0d9cd;
-  --color-ink-700: #c9c0b0;
-  --color-ink-500: #9a9083;
+  --color-ink-700: #968b76;
+  --color-ink-500: #746b5c;
   --color-ink-400: #6e655a;
   --color-ink-200: #3a342d;
   --color-ink-100: #1a1714;
 
-  --color-flare-deep: #c23f22;
-  --color-flare: #d94a2b;
-  --color-flare-warm: #e87440;
+  --color-flare-deep: #a8341a;
+  --color-flare: #c43f21;
+  --color-flare-warm: #d4602f;
 
   /* Mark needs a dark ground here or its white outlines disappear. */
   --logo-chip: #0b0a09;
+  --logo-chip-pad: 6px;
+}
+
+/* ---------- HAI 灰 — light grey, cool and neutral. ----------
+   Not kura: no warmth, no paper. A flat photographic grey that lets the
+   bottle shots and the coloured labels carry all the colour on the page.
+   Feel: studio, lab bench, product photography backdrop. */
+html[data-theme='hai'] {
+  --color-ink-950: #e9eaeb;
+  --color-ink-900: #f4f5f5;
+  --color-ink-850: #dedfe1;
+  --color-ink-800: #cbcdcf;
+  --color-ink-700: #82868a;
+  --color-ink-500: #61666a;
+  --color-ink-400: #52575a;
+  --color-ink-200: #2e3235;
+  --color-ink-100: #17191b;
+
+  /* Deeper than the dark themes' #ff573c, which is unreadable on light grey. */
+  --color-flare-deep: #9c2f14;
+  --color-flare: #b93a1b;
+  --color-flare-warm: #c85226;
+
+  --logo-chip: #17191b;
   --logo-chip-pad: 6px;
 }
 
@@ -122,4 +146,36 @@ html[data-theme='kura'] {
   background: var(--logo-chip);
   padding: var(--logo-chip-pad);
   border-radius: 3px;
+}
+
+/* ============================================================
+   PER-BATCH ACCENTS ACROSS THEMES
+   ============================================================
+   Batch pages carry their label's colour. The page sets only the raw
+   INPUTS (--batch-accent / --batch-accent-warm) inline; the derived
+   --color-flare* outputs are computed here, per theme.
+
+   That split exists because inline styles beat every stylesheet rule.
+   If the page set --color-flare directly, a light theme could not
+   correct it without !important.
+
+   Why it needs correcting: label colours were drawn for a black bottle.
+   Sassy Snow Angel (#a6cff3) and Silver Hill (#bababa) are near-invisible
+   on a light ground. Light themes darken them enough to read while
+   keeping each batch recognisably its own colour.
+   ============================================================ */
+.batch-themed {
+  --color-flare: var(--batch-accent);
+  --color-flare-warm: var(--batch-accent-warm);
+  --color-flare-deep: var(--batch-accent);
+}
+
+html[data-theme='hai'] .batch-themed,
+html[data-theme='kura'] .batch-themed {
+  /* 45% is the measured threshold: below it every batch accent -- including
+     Grace's pale pink #ffbfe4, the worst case -- clears 4.5:1 on the light
+     ground. At 62% Grace sat at 2.94:1 and was effectively unreadable. */
+  --color-flare: color-mix(in srgb, var(--batch-accent) 45%, #101112);
+  --color-flare-warm: color-mix(in srgb, var(--batch-accent-warm) 50%, #101112);
+  --color-flare-deep: color-mix(in srgb, var(--batch-accent) 40%, #101112);
 }

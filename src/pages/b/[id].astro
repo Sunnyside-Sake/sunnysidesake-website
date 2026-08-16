@@ -63,7 +63,7 @@ const vitals = [
 <Layout title={`${t.batches.batchNumber} ${d.id} — ${d.name}`} description={d.thesis ?? d.tagline}>
   {/* Per-batch accent: the mark is recoloured on every label, so the page
       follows the bottle in your hand rather than a fixed house colour. */}
-  <article style={`--color-flare: ${d.accent}; --color-flare-warm: ${d.accentWarm}; --color-flare-deep: ${d.accent};`}>
+  <article class="batch-themed" style={`--batch-accent: ${d.accent}; --batch-accent-warm: ${d.accentWarm};`}>
     {/* ============ HEADER ============ */}
     <section class="relative overflow-hidden border-b border-ink-800">
       <div

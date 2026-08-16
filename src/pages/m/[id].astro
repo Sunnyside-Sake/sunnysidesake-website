@@ -44,9 +44,7 @@ const vitals = [
 ---
 
 <Layout title={`${d.name} — ${t.makgeolli.title}`} description={d.thesis ?? d.tagline}>
-  <article
-    style={`--color-flare: ${d.accent}; --color-flare-warm: ${d.accentWarm}; --color-flare-deep: ${d.accent};`}
-  >
+  <article class="batch-themed" style={`--batch-accent: ${d.accent}; --batch-accent-warm: ${d.accentWarm};`}>
     <section class="relative overflow-hidden border-b border-ink-800">
       <div
         class="absolute inset-0 pointer-events-none opacity-[0.11]"
