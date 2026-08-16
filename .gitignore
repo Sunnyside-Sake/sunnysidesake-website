@@ -41,3 +41,6 @@ AGENTS.md
 *.llm.md
 notes/
 
+
+# white-balance scratch output
+*.tmp.jpg
