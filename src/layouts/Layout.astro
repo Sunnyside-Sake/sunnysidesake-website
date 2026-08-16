@@ -2,8 +2,9 @@
 import '../styles/global.css';
 import { Image } from 'astro:assets';
 import logoMark from '../assets/logo-mark.png';
+import logoMarkLight from '../assets/logo-mark-light.png';
 import { t } from '../i18n/en';
-import { defaultTheme } from '../config/themes';
+import { defaultTheme, themeBg } from '../config/themes';
 import ThemeSwitcher from '../components/ThemeSwitcher.astro';
 
 interface Props {
@@ -41,7 +42,7 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
 
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
-    <meta name="theme-color" content="#0b0a09" />
+    <meta name="theme-color" content={themeBg[defaultTheme]} />
 
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -70,7 +71,14 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
               alt=""
               width={28}
               height={31}
-              class="w-7 h-auto transition-transform duration-300 group-hover:-translate-y-0.5"
+              class="logo-dark w-7 h-auto transition-transform duration-300 group-hover:-translate-y-0.5"
+            />
+            <Image
+              src={logoMarkLight}
+              alt=""
+              width={28}
+              height={31}
+              class="logo-light w-7 h-auto transition-transform duration-300 group-hover:-translate-y-0.5"
             />
           </span>
           {/* Wordmark as live text, not baked into the logo raster:
