@@ -3,7 +3,7 @@ import '../styles/global.css';
 import { Image } from 'astro:assets';
 import logoMark from '../assets/logo-mark.png';
 import logoMarkLight from '../assets/logo-mark-light.png';
-import logoMarkBw from '../assets/logo-mark-bw.png';
+import logoMarkSvg from '../assets/logo-mark.svg';
 import { t } from '../i18n/en';
 import { defaultTheme, themeBg } from '../config/themes';
 import ThemeSwitcher from '../components/ThemeSwitcher.astro';
@@ -70,11 +70,20 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
               white-ground variant. One asset covers every theme: on light
               grounds the outline carries it, on dark grounds the white infill
               does — so the header needs no light/dark swap. */}
-          <Image
-            src={logoMarkBw}
+          {/* Vector, not raster. The PNG was downsampled from a 1010px
+              extraction to 28px, which averaged a 51px stroke into ~1.4px of
+              grey — visibly fuzzy and unfixable at that size. The browser
+              rasterises this against the device pixel grid instead, so it is
+              sharp at any size and on any display density.
+
+              Sourced from the WRKY label's white-ground SVG with only the two
+              oversized page-ground rects removed, so the arch infills survive
+              and the geometry is the artwork rather than a reconstruction. */}
+          <img
+            src={logoMarkSvg.src}
             alt=""
-            width={28}
-            height={32}
+            width="28"
+            height="32"
             class="w-7 h-auto transition-transform duration-300 group-hover:-translate-y-0.5"
           />
           {/* Wordmark as live text, not baked into the logo raster:
