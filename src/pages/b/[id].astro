@@ -47,12 +47,18 @@ const fmt = (dt?: Date) =>
   });
 
 /**
- * polishRatio is deliberately absent here — it is shown in the header beside
- * the grade, where it justifies the classification ("Junmai Daiginjo ·
- * Polishing ratio 40%"). Listing it again as a vital was pure duplication.
+ * Rice carries the polishing ratio, exactly as the printed back label does:
+ * "Yamada Nishiki @40%". One place for the spec rather than two, and the page
+ * reads the same as the bottle in your hand.
+ *
+ * The grade in the header already implies the milling for anyone who reads
+ * grades; the exact figure lives here with the rest of the data.
  */
+const riceSpec =
+  d.rice && d.polishRatio ? `${d.rice} @${d.polishRatio}%` : (d.rice ?? undefined);
+
 const vitals = [
-  { label: t.batch.rice, value: d.rice },
+  { label: t.batch.rice, value: riceSpec },
   { label: t.batch.koji, value: d.koji },
   { label: t.batch.yeast, value: d.yeast },
   { label: t.batch.water, value: d.water },
@@ -97,13 +103,6 @@ const vitals = [
           {d.style.map((st) => (
             <span class="label text-flare">{st}</span>
           ))}
-          {
-            d.polishRatio && (
-              <span class="tabular text-xs text-ink-500">
-                {t.batch.polishRatio} {d.polishRatio}%
-              </span>
-            )
-          }
           {d.nameJa && <span class="label text-ink-400">{d.nameJa}</span>}
         </div>
 

@@ -29,11 +29,15 @@ const fmt = (dt?: Date) =>
     timeZone: 'UTC',
   });
 
+// Same convention as the sake pages: rice carries the ratio when a hybrid
+// has one (Wildflower uses sake rice), rather than a separate row.
+const riceSpec =
+  d.rice && d.polishRatio ? `${d.rice} @${d.polishRatio}%` : (d.rice ?? undefined);
+
 const vitals = [
-  { label: t.batch.rice, value: d.rice },
+  { label: t.batch.rice, value: riceSpec },
   { label: t.makgeolli.nuruk, value: d.nuruk },
   { label: t.batch.koji, value: d.koji },
-  { label: t.batch.polishRatio, value: d.polishRatio ? `${d.polishRatio}%` : undefined },
   { label: t.batch.water, value: d.water },
   { label: t.makgeolli.extras, value: d.extras },
   { label: t.batch.abv, value: d.abv ? `${d.abv}%` : undefined },
