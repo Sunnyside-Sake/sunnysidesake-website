@@ -123,6 +123,19 @@ const vitals = [
       {/* ============ SENSORY + VITALS ============ */}
       <section class="grid md:grid-cols-[280px_1fr] gap-8 md:gap-10 py-10 items-start">
         <div class="max-w-[280px] w-full flex flex-col gap-4">
+          {/**
+            * REVISIT: bottle images render at their natural aspect, and those
+            * aspects vary a lot — the two cropped-from-group shots (001, 002)
+            * are about 1:3.6, the four uncropped ones about 1:1.33. So the
+            * left column runs much longer on some batches than others, and can
+            * outrun the data beside it.
+            *
+            * Deliberate for now: Dan likes that the tall ones read as
+            * authentic rather than staged. Worth looking at again once the
+            * fermentation charts land and the right column gets taller — at
+            * that point the mismatch may resolve itself, or the answer may be
+            * a max-height cap, or re-cropping 003-006 tighter to match.
+            */}
           {
             d.bottle ? (
               <Image
