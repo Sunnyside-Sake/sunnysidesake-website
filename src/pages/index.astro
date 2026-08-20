@@ -41,7 +41,7 @@ const totalReadings = batches.reduce((n, b) => n + loadReadings(b.data.id).lengt
     </div>
 
     <div
-      class="relative max-w-6xl mx-auto px-6 pt-20 pb-24 md:pt-28 md:pb-32 grid md:grid-cols-[1fr_auto] gap-12 items-center"
+      class="relative max-w-6xl mx-auto px-6 pt-12 pb-16 md:pt-16 md:pb-20 grid md:grid-cols-[1fr_auto] gap-10 items-center"
     >
       <div>
       <span class="logo-chip inline-flex">
@@ -55,15 +55,15 @@ const totalReadings = batches.reduce((n, b) => n + loadReadings(b.data.id).lengt
         />
       </span>
 
-      <h1 class="display text-[1.75rem] leading-[1.1] md:text-4xl lg:text-5xl mt-10 max-w-3xl text-balance">
+      <h1 class="display text-[1.75rem] leading-[1.1] md:text-4xl lg:text-5xl mt-6 max-w-3xl text-balance">
         {t.brand.tagline}
       </h1>
 
-      <p class="label mt-8">{t.brand.nameJa} · Queens, NY</p>
+      <p class="label mt-6">{t.brand.nameJa} · Queens, NY</p>
 
       {
         totalReadings > 0 && (
-          <p class="tabular mt-10 text-sm text-ink-400">
+          <p class="tabular mt-8 text-sm text-ink-400">
             <span class="text-flare">{totalReadings}</span> readings published across{' '}
             <span class="text-flare">{batches.length}</span>{' '}
             {batches.length === 1 ? 'batch' : 'batches'}
@@ -88,7 +88,7 @@ const totalReadings = batches.reduce((n, b) => n + loadReadings(b.data.id).lengt
   {/* ============ ACTIVE BATCH ============ */}
   {
     active && (
-      <section class="max-w-6xl mx-auto px-6 py-16 md:py-20">
+      <section class="max-w-6xl mx-auto px-6 py-12 md:py-14">
         <div class="flex items-center gap-3">
           <span class="relative flex h-2 w-2">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-flare opacity-60" />
@@ -127,8 +127,8 @@ const totalReadings = batches.reduce((n, b) => n + loadReadings(b.data.id).lengt
   {/* ============ LATEST RELEASE ============ */}
   {
     latest && (
-      <section class="max-w-6xl mx-auto px-6 pb-16 md:pb-20">
-        <div class="arch-rule mb-10" />
+      <section class="max-w-6xl mx-auto px-6 pb-12 md:pb-14">
+        <div class="arch-rule mb-6" />
         <h2 class="label">{t.home.latestReleaseLabel}</h2>
 
         <a href={`/b/${latest.data.id}`} class="group block mt-6">
@@ -165,7 +165,7 @@ const totalReadings = batches.reduce((n, b) => n + loadReadings(b.data.id).lengt
 
   {/* ============ NEWSLETTER ============ */}
   <section class="border-t border-ink-800">
-    <div class="max-w-6xl mx-auto px-6 py-16 md:py-20">
+    <div class="max-w-6xl mx-auto px-6 py-12 md:py-14">
       <h2 class="display text-2xl md:text-3xl max-w-xl">{t.newsletter.heading}</h2>
       {/* TODO Phase 5: wire to Buttondown. Inert until then — deliberately
           not a fake form that silently swallows an address. */}

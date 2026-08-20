@@ -13,19 +13,19 @@ const items = (
 ---
 
 <Layout title={t.makgeolli.title}>
-  <section class="max-w-6xl mx-auto px-6 pt-16 pb-12 md:pt-20">
+  <section class="max-w-6xl mx-auto px-6 pt-10 pb-8 md:pt-12">
     <div class="flex flex-wrap items-baseline gap-4">
       <h1 class="display text-4xl md:text-5xl">{t.makgeolli.title}</h1>
       <span class="label text-ink-400">{t.makgeolli.titleKo}</span>
     </div>
-    <p class="prose-body mt-5 text-lg">{t.makgeolli.intro}</p>
-    <div class="arch-rule mt-10"></div>
+    <p class="prose-body mt-3">{t.makgeolli.intro}</p>
+    <div class="arch-rule mt-6"></div>
   </section>
 
-  <section class="max-w-6xl mx-auto px-6 pb-20">
+  <section class="max-w-6xl mx-auto px-6 pb-16">
     {items.length === 0 && <p class="label">{t.makgeolli.empty}</p>}
 
-    <ul class="grid grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
+    <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-8">
       {
         items.map((item) => (
           <li>

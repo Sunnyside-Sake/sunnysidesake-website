@@ -17,16 +17,16 @@ const counts = new Map(batches.map((b) => [b.data.id, loadReadings(b.data.id).le
 ---
 
 <Layout title={t.batches.title}>
-  <section class="max-w-6xl mx-auto px-6 pt-16 pb-12 md:pt-20">
+  <section class="max-w-6xl mx-auto px-6 pt-10 pb-8 md:pt-12">
     <h1 class="display text-4xl md:text-5xl">{t.batches.title}</h1>
-    <p class="prose-body mt-5 text-lg">{t.batches.intro}</p>
-    <div class="arch-rule mt-10" />
+    <p class="prose-body mt-3">{t.batches.intro}</p>
+    <div class="arch-rule mt-6" />
   </section>
 
-  <section class="max-w-6xl mx-auto px-6 pb-20">
+  <section class="max-w-6xl mx-auto px-6 pb-16">
     {batches.length === 0 && <p class="label">{t.batches.empty}</p>}
 
-    <ul class="grid grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
+    <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-8">
       {
         batches.map((batch) => (
           <li>
@@ -97,7 +97,7 @@ const counts = new Map(batches.map((b) => [b.data.id, loadReadings(b.data.id).le
 
     {/* Aside, not a second product line. Deliberately at the foot of the sake
         index rather than in the nav — see the note in Layout.astro. */}
-    <aside class="mt-20 pt-10 border-t border-ink-800">
+    <aside class="mt-14 pt-8 border-t border-ink-800">
       <a href="/makgeolli" class="group inline-block max-w-xl">
         <p class="label group-hover:text-flare transition-colors">
           {t.makgeolli.asideLabel} →
