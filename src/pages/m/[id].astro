@@ -112,17 +112,6 @@ const vitals = [
               <Placeholder label={d.name} />
             )
           }
-          {
-            d.labelFront && (
-              <Image
-                src={d.labelFront}
-                alt={`${d.name} front label`}
-                widths={[280, 560]}
-                sizes="280px"
-                class="w-full h-auto border border-ink-800"
-              />
-            )
-          }
         </div>
 
         <div>
@@ -152,17 +141,34 @@ const vitals = [
             )
           }
 
+
           {
-            d.labelBack && (
-              <div class="mt-10">
+            (d.labelFront || d.labelBack) && (
+              <div class="mt-8">
                 <h2 class="label">{t.batch.labelLabel}</h2>
-                <Image
-                  src={d.labelBack}
-                  alt={`${d.name} back label`}
-                  widths={[320, 640]}
-                  sizes="320px"
-                  class="mt-3 w-full max-w-[320px] h-auto border border-ink-800"
-                />
+                {/* Front and back together, under the data. The back label IS
+                    the spec sheet in physical form, so the two belong beside
+                    each other rather than split across columns. */}
+                <div class="mt-3 grid grid-cols-2 gap-4 max-w-xl">
+                  {d.labelFront && (
+                    <Image
+                      src={d.labelFront}
+                      alt={`${d.name} front label`}
+                      widths={[280, 560]}
+                      sizes="280px"
+                      class="w-full h-auto border border-ink-800"
+                    />
+                  )}
+                  {d.labelBack && (
+                    <Image
+                      src={d.labelBack}
+                      alt={`${d.name} back label`}
+                      widths={[280, 560]}
+                      sizes="280px"
+                      class="w-full h-auto border border-ink-800"
+                    />
+                  )}
+                </div>
               </div>
             )
           }

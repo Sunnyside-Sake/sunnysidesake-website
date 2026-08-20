@@ -49,7 +49,7 @@ export const en = {
     labelArtBy: 'Label art by',
 
     thanksLabel: 'With thanks to',
-    labelLabel: 'Back label',
+    labelLabel: 'Labels',
 
     rice: 'Rice',
     polishRatio: 'Polishing ratio',
