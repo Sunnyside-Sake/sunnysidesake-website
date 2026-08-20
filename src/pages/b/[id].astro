@@ -46,9 +46,13 @@ const fmt = (dt?: Date) =>
     timeZone: 'UTC',
   });
 
+/**
+ * polishRatio is deliberately absent here — it is shown in the header beside
+ * the grade, where it justifies the classification ("Junmai Daiginjo ·
+ * Polishing ratio 40%"). Listing it again as a vital was pure duplication.
+ */
 const vitals = [
   { label: t.batch.rice, value: d.rice },
-  { label: t.batch.polishRatio, value: d.polishRatio ? `${d.polishRatio}%` : undefined },
   { label: t.batch.koji, value: d.koji },
   { label: t.batch.yeast, value: d.yeast },
   { label: t.batch.water, value: d.water },
