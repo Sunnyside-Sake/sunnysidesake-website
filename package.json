@@ -18,6 +18,7 @@
   },
   "private": true,
   "devDependencies": {
+    "sharp": "^0.35.3",
     "svgo": "^4.0.2"
   }
 }
