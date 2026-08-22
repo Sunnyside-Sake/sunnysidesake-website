@@ -5,6 +5,7 @@ import logoMark from '../assets/logo-mark.png';
 import logoMarkLight from '../assets/logo-mark-light.png';
 import logoMarkSvg from '../assets/logo-mark.svg';
 import logoMarkFlare from '../assets/logo-mark-flare.svg';
+import logoMarkFlareWide from '../assets/logo-mark-flare-wide.svg';
 import { t } from '../i18n/en';
 import { defaultTheme, themeBg } from '../config/themes';
 import ThemeSwitcher from '../components/ThemeSwitcher.astro';
@@ -93,6 +94,13 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
             width="28"
             height="32"
             class="mark-flare w-7 h-auto transition-transform duration-300 group-hover:-translate-y-0.5"
+          />
+          <img
+            src={logoMarkFlareWide.src}
+            alt=""
+            width="28"
+            height="32"
+            class="mark-flare-wide w-7 h-auto transition-transform duration-300 group-hover:-translate-y-0.5"
           />
           {/* Wordmark as live text, not baked into the logo raster:
               stays crisp at any size and can be swapped for Japanese later. */}

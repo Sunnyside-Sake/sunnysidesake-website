@@ -145,6 +145,7 @@ html[data-theme='hai'] {
    Identical palette to hai. The only difference is the logo variant: the
    mark carries the original orange gradient instead of the black outline
    and white infill. Exists purely to compare the two marks in place. */
+html[data-theme='hai-flare-wide'],
 html[data-theme='hai-flare'] {
   --color-ink-950: #e9eaeb;
   --color-ink-900: #f4f5f5;
@@ -224,6 +225,7 @@ html[data-theme='hai-plus'] {
 
 html[data-theme='hai'] .batch-themed,
 html[data-theme='hai-flare'] .batch-themed,
+html[data-theme='hai-flare-wide'] .batch-themed,
 html[data-theme='kura'] .batch-themed {
   /* 45% is the measured threshold: below it every batch accent -- including
      Grace's pale pink #ffbfe4, the worst case -- clears 4.5:1 on the light
@@ -272,7 +274,9 @@ html[data-theme='kura'] .logo-light { display: block; }
    switcher can flip them at runtime without a rebuild. Mono is the
    default; only themes that opt into the gradient show `flare`.
    ============================================================ */
-.mark-flare { display: none; }
+.mark-flare, .mark-flare-wide { display: none; }
 
-html[data-theme='hai-flare'] .mark-mono { display: none; }
+html[data-theme='hai-flare'] .mark-mono,
+html[data-theme='hai-flare-wide'] .mark-mono { display: none; }
 html[data-theme='hai-flare'] .mark-flare { display: block; }
+html[data-theme='hai-flare-wide'] .mark-flare-wide { display: block; }

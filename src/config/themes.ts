@@ -66,6 +66,14 @@ export const themes = [
     note: 'hai exactly, but the mark carries the logo gradient instead of the outline.',
   },
   {
+    id: 'hai-flare-wide',
+    bg: '#e9eaeb',
+    mark: 'flare-wide',
+    name: 'Hai Flare (wide)',
+    nameJa: '灰火・広',
+    note: 'Gradient endpoints pushed apart to make the sweep register at small size.',
+  },
+  {
     id: 'kura',
     mark: 'mono',
     bg: '#f7f4ee',

@@ -2,8 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import Placeholder from '../components/Placeholder.astro';
 import { Image } from 'astro:assets';
-import logoMark from '../assets/logo-mark.png';
-import logoMarkLight from '../assets/logo-mark-light.png';
 import heroImage from '../assets/hero.jpg';
 import { t } from '../i18n/en';
 import { getCollection } from 'astro:content';
@@ -25,6 +23,9 @@ const released = batches
   });
 const latest = released[0];
 
+// Oldest first: the spectrum reads left-to-right as the order they were brewed.
+const spectrum = [...batches].sort((a, b) => a.data.id.localeCompare(b.data.id));
+
 // Headline stat: total readings published across every batch. This is the
 // claim the whole brand rests on, so it should be a number, not an adjective.
 const totalReadings = batches.reduce((n, b) => n + loadReadings(b.data.id).length, 0);
@@ -44,17 +45,6 @@ const totalReadings = batches.reduce((n, b) => n + loadReadings(b.data.id).lengt
       class="relative max-w-6xl mx-auto px-6 pt-12 pb-16 md:pt-16 md:pb-20 grid md:grid-cols-[1fr_auto] gap-10 items-center"
     >
       <div>
-      <span class="logo-chip inline-flex">
-        <Image src={logoMark} alt="" width={96} height={107} class="logo-dark w-16 md:w-20 h-auto" />
-        <Image
-          src={logoMarkLight}
-          alt=""
-          width={96}
-          height={107}
-          class="logo-light w-16 md:w-20 h-auto"
-        />
-      </span>
-
       <h1 class="display text-[1.75rem] leading-[1.1] md:text-4xl lg:text-5xl mt-6 max-w-3xl text-balance">
         {t.brand.tagline}
       </h1>
@@ -82,6 +72,29 @@ const totalReadings = batches.reduce((n, b) => n + loadReadings(b.data.id).lengt
         class="w-full max-w-[380px] h-auto justify-self-end"
         loading="eager"
       />
+    </div>
+
+    {/* Every batch's label colours, oldest to newest.
+        Replaces the arch that used to sit above the headline — it already
+        appears in the header and the browser tab, and a third instance on one
+        screen was too many. This says the same thing the mark does (the arch
+        is recoloured per batch) without repeating the shape, uses no asset we
+        do not already have, and gets richer with every brew. */}
+    <div class="relative mt-2 flex h-16 md:h-20 w-full">
+      {
+        spectrum.map((b) => (
+          <a
+            href={`/b/${b.data.id}`}
+            class="group relative flex-1 transition-[flex-grow] duration-300 hover:grow-[1.35]"
+            style={`background: linear-gradient(160deg, ${b.data.accent} 0%, ${b.data.accentWarm} 100%);`}
+            aria-label={`${b.data.name} — batch ${b.data.id}`}
+          >
+            <span class="tabular absolute bottom-1.5 left-2 text-[10px] text-black/55 group-hover:text-black/85 transition-colors">
+              {b.data.id}
+            </span>
+          </a>
+        ))
+      }
     </div>
   </section>
 
