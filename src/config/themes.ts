@@ -9,9 +9,17 @@
  * touching this.
  */
 
+/**
+ * `mark` selects which logo variant the theme shows:
+ *   'mono'  black outline, white infill (the WRKY white-ground artwork)
+ *   'flare' the same drawing with the orange gradient infill
+ * Both are rendered into the page and CSS picks one, so the dev switcher can
+ * flip them at runtime without a rebuild.
+ */
 export const themes = [
   {
     id: 'ember',
+    mark: 'mono',
     bg: '#0b0a09',
     name: 'Ember',
     nameJa: '熾火',
@@ -19,6 +27,7 @@ export const themes = [
   },
   {
     id: 'sumi',
+    mark: 'mono',
     bg: '#08080a',
     name: 'Sumi',
     nameJa: '墨',
@@ -26,6 +35,7 @@ export const themes = [
   },
   {
     id: 'kohaku',
+    mark: 'mono',
     bg: '#12100c',
     name: 'Kohaku',
     nameJa: '琥珀',
@@ -33,6 +43,7 @@ export const themes = [
   },
   {
     id: 'hai',
+    mark: 'mono',
     bg: '#e9eaeb',
     name: 'Hai',
     nameJa: '灰',
@@ -40,13 +51,23 @@ export const themes = [
   },
   {
     id: 'hai-plus',
+    mark: 'mono',
     bg: '#c4c7ca',
     name: 'Hai ++',
     nameJa: '濃灰',
     note: 'hai pushed 30% deeper and cooler. Overcast slate — more industrial, less studio.',
   },
   {
+    id: 'hai-flare',
+    bg: '#e9eaeb',
+    mark: 'flare',
+    name: 'Hai Flare',
+    nameJa: '灰火',
+    note: 'hai exactly, but the mark carries the logo gradient instead of the outline.',
+  },
+  {
     id: 'kura',
+    mark: 'mono',
     bg: '#f7f4ee',
     name: 'Kura',
     nameJa: '蔵',

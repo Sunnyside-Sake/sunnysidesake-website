@@ -141,6 +141,29 @@ html[data-theme='hai'] {
   --logo-chip-pad: 0px;
 }
 
+/* ---------- HAI FLARE 灰火 — hai, with the gradient mark. ----------
+   Identical palette to hai. The only difference is the logo variant: the
+   mark carries the original orange gradient instead of the black outline
+   and white infill. Exists purely to compare the two marks in place. */
+html[data-theme='hai-flare'] {
+  --color-ink-950: #e9eaeb;
+  --color-ink-900: #f4f5f5;
+  --color-ink-850: #dedfe1;
+  --color-ink-800: #cbcdcf;
+  --color-ink-700: #82868a;
+  --color-ink-500: #61666a;
+  --color-ink-400: #52575a;
+  --color-ink-200: #2e3235;
+  --color-ink-100: #17191b;
+
+  --color-flare-deep: #9c2f14;
+  --color-flare: #b93a1b;
+  --color-flare-warm: #c85226;
+
+  --logo-chip: transparent;
+  --logo-chip-pad: 0px;
+}
+
 /* ---------- HAI++ 濃灰 — deeper, cooler grey-blue. ----------
    hai's ground pushed 30% deeper in luminance and shifted toward slate.
    Measured, not eyeballed: #c4c7ca is a 31% luminance drop from hai's
@@ -200,6 +223,7 @@ html[data-theme='hai-plus'] {
 }
 
 html[data-theme='hai'] .batch-themed,
+html[data-theme='hai-flare'] .batch-themed,
 html[data-theme='kura'] .batch-themed {
   /* 45% is the measured threshold: below it every batch accent -- including
      Grace's pale pink #ffbfe4, the worst case -- clears 4.5:1 on the light
@@ -239,3 +263,16 @@ html[data-theme='kura'] .logo-dark { display: none; }
 html[data-theme='hai'] .logo-light,
 html[data-theme='hai-plus'] .logo-light,
 html[data-theme='kura'] .logo-light { display: block; }
+
+
+/* ============================================================
+   MARK VARIANT BY THEME
+   ============================================================
+   Both marks ship (about 8kB gzipped each) and CSS shows one, so the dev
+   switcher can flip them at runtime without a rebuild. Mono is the
+   default; only themes that opt into the gradient show `flare`.
+   ============================================================ */
+.mark-flare { display: none; }
+
+html[data-theme='hai-flare'] .mark-mono { display: none; }
+html[data-theme='hai-flare'] .mark-flare { display: block; }
