@@ -18,30 +18,6 @@
  */
 export const themes = [
   {
-    id: 'ember',
-    mark: 'mono',
-    bg: '#0b0a09',
-    name: 'Ember',
-    nameJa: '熾火',
-    note: 'Warm near-black, glowing orange. Derived straight from the logo.',
-  },
-  {
-    id: 'sumi',
-    mark: 'mono',
-    bg: '#08080a',
-    name: 'Sumi',
-    nameJa: '墨',
-    note: 'Cooler, flatter, near-monochrome. Orange rationed to live data only.',
-  },
-  {
-    id: 'kohaku',
-    mark: 'mono',
-    bg: '#12100c',
-    name: 'Kohaku',
-    nameJa: '琥珀',
-    note: 'Amber and cellar-warm. Reads aged rather than alert.',
-  },
-  {
     id: 'hai',
     mark: 'mono',
     bg: '#e9eaeb',

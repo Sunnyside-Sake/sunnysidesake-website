@@ -63,11 +63,22 @@ import { themes, defaultTheme } from '../config/themes';
       } catch {}
     };
 
-    // Restore the last comparison across reloads.
+    // Restore the last comparison across reloads — but only if the saved theme
+    // still exists. A theme deleted from the registry would otherwise be
+    // re-applied from a stale localStorage entry, leaving data-theme pointing
+    // at a rule that no longer exists: the page falls back to the base tokens
+    // while the switcher label insists it is on the removed theme.
+    const known = [...document.querySelectorAll('.theme-option')].map((b) => b.dataset.themeId);
     let saved = null;
     try {
       saved = localStorage.getItem(KEY);
     } catch {}
+    if (saved && !known.includes(saved)) {
+      saved = null;
+      try {
+        localStorage.removeItem(KEY);
+      } catch {}
+    }
     apply(saved || root.getAttribute('data-theme') || fallback);
 
     const toggle = document.getElementById('theme-toggle');

@@ -36,28 +36,28 @@
 
 @theme {
   /* ----------------------------------------------------------
-     COLOR — sampled from the logo, not invented.
-     The mark is black-native with white outlines: on a light
-     ground those outlines vanish. Dark is not a style choice
-     here, it is what the asset requires.
+     COLOR — fallback values only.
+     Every page sets data-theme, and themes.css defines the real
+     palette per theme. These exist for the case where no theme
+     attribute resolves, so they mirror `hai`, the shipping theme.
+     Keep them in sync if hai changes; a stale fallback would flash
+     the wrong ground before the theme applies.
      ---------------------------------------------------------- */
+  --color-ink-950: #e9eaeb;
+  --color-ink-900: #f4f5f5;
+  --color-ink-850: #dedfe1;
+  --color-ink-800: #cbcdcf;
+  --color-ink-700: #82868a;
+  --color-ink-500: #61666a;
+  --color-ink-400: #52575a;
+  --color-ink-200: #2e3235;
+  --color-ink-100: #17191b;
 
-  /* Warm near-black rather than #000: less harsh over large areas,
-     and it stops the orange from vibrating against pure black. */
-  --color-ink-950: #0b0a09;
-  --color-ink-900: #121110;
-  --color-ink-850: #1a1817;
-  --color-ink-800: #262220;
-  --color-ink-700: #3a3431;
-  --color-ink-500: #6b625c;
-  --color-ink-400: #8a817a;
-  --color-ink-200: #c8c1ba;
-  --color-ink-100: #ede9e4;
-
-  /* The logo gradient, left to right across the arches. */
-  --color-flare-deep: #ff4537;
-  --color-flare: #ff573c;
-  --color-flare-warm: #ff8449;
+  /* Accent, deepened for legibility on a light ground — the printed
+     #ff573c fails contrast against grey at small sizes. */
+  --color-flare-deep: #9c2f14;
+  --color-flare: #b93a1b;
+  --color-flare-warm: #c85226;
 
   /* CJK fallback matters: the UI carries Japanese accents
      (初添 / 仲添 / 留添 / サニーサイド) and Plex latin has no CJK. */
