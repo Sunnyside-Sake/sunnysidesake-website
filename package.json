@@ -16,5 +16,8 @@
     "astro": "^7.2.1",
     "tailwindcss": "^4.3.3"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "svgo": "^4.0.2"
+  }
 }
