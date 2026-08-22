@@ -15,10 +15,6 @@
    every component keeps working untouched. Read the scale as
    "distance from the page ground", not as brightness.
 
-   `--logo-chip` exists because the brand mark has white outlines that
-   vanish on a light ground. Dark themes leave it transparent; light
-   themes put the mark on a dark chip, which is a legitimate brand
-   treatment rather than a fabricated light-mode logo variant.
    ============================================================ */
 
 /* ---------- KURA 蔵 — light paper. ----------
@@ -43,8 +39,6 @@ html[data-theme='kura'] {
   --color-flare-warm: #d4602f;
 
   /* Mark needs a dark ground here or its white outlines disappear. */
-  --logo-chip: transparent;
-  --logo-chip-pad: 0px;
 }
 
 /* ---------- HAI 灰 — light grey, cool and neutral. ----------
@@ -67,16 +61,15 @@ html[data-theme='hai'] {
   --color-flare: #b93a1b;
   --color-flare-warm: #c85226;
 
-  --logo-chip: transparent;
-  --logo-chip-pad: 0px;
 }
 
-/* ---------- HAI FLARE 灰火 — hai, with the gradient mark. ----------
-   Identical palette to hai. The only difference is the logo variant: the
-   mark carries the original orange gradient instead of the black outline
-   and white infill. Exists purely to compare the two marks in place. */
-html[data-theme='hai-flare-wide'],
-html[data-theme='hai-flare'] {
+/* ---------- HAI FLARE (WIDE) 灰火・広 — comparison only. ----------
+   hai's palette exactly. The only difference is the mark: gradient
+   endpoints pushed apart to test whether a wider sweep registers at 28px.
+   It does not — the mark is too narrow and its black outline splits it
+   into five columns, so any sweep is chopped into short runs. Kept so the
+   comparison can be made in place rather than argued about. */
+html[data-theme='hai-flare-wide'] {
   --color-ink-950: #e9eaeb;
   --color-ink-900: #f4f5f5;
   --color-ink-850: #dedfe1;
@@ -91,8 +84,6 @@ html[data-theme='hai-flare'] {
   --color-flare: #b93a1b;
   --color-flare-warm: #c85226;
 
-  --logo-chip: transparent;
-  --logo-chip-pad: 0px;
 }
 
 /* ---------- HAI++ 濃灰 — deeper, cooler grey-blue. ----------
@@ -120,15 +111,6 @@ html[data-theme='hai-plus'] {
   --color-flare: #932c14;
   --color-flare-warm: #a8431f;
 
-  --logo-chip: transparent;
-  --logo-chip-pad: 0px;
-}
-
-/* Chip treatment for the header/hero mark. No-op on dark themes. */
-.logo-chip {
-  background: var(--logo-chip);
-  padding: var(--logo-chip-pad);
-  border-radius: 3px;
 }
 
 /* ============================================================
@@ -154,7 +136,6 @@ html[data-theme='hai-plus'] {
 }
 
 html[data-theme='hai'] .batch-themed,
-html[data-theme='hai-flare'] .batch-themed,
 html[data-theme='hai-flare-wide'] .batch-themed,
 html[data-theme='kura'] .batch-themed {
   /* 45% is the measured threshold: below it every batch accent -- including
@@ -174,29 +155,6 @@ html[data-theme='hai-plus'] .batch-themed {
   --color-flare-deep: color-mix(in srgb, var(--batch-accent) 28%, #101112);
 }
 
-
-/* ============================================================
-   MARK VARIANT BY THEME
-   ============================================================
-   The primary mark has white outlines, drawn to sit on black. On a light
-   ground those outlines disappear into the page. Rather than box the logo
-   in a dark chip, light themes swap to a light-ground variant of the mark
-   — the same treatment used on the printed business card.
-
-   Both variants ship (they are ~2kB each at header size) and CSS picks
-   one, so there is no flash and no JS involved.
-   ============================================================ */
-.logo-light { display: none; }
-
-html[data-theme='hai'] .logo-dark,
-html[data-theme='hai-plus'] .logo-dark,
-html[data-theme='kura'] .logo-dark { display: none; }
-
-html[data-theme='hai'] .logo-light,
-html[data-theme='hai-plus'] .logo-light,
-html[data-theme='kura'] .logo-light { display: block; }
-
-
 /* ============================================================
    MARK VARIANT BY THEME
    ============================================================
@@ -204,9 +162,9 @@ html[data-theme='kura'] .logo-light { display: block; }
    switcher can flip them at runtime without a rebuild. Mono is the
    default; only themes that opt into the gradient show `flare`.
    ============================================================ */
-.mark-flare, .mark-flare-wide { display: none; }
+/* Flare is the house mark, so it is the default and needs no per-theme rule.
+   Only the comparison theme swaps it out. */
+.mark-flare-wide { display: none; }
 
-html[data-theme='hai-flare'] .mark-mono,
-html[data-theme='hai-flare-wide'] .mark-mono { display: none; }
-html[data-theme='hai-flare'] .mark-flare { display: block; }
+html[data-theme='hai-flare-wide'] .mark-flare { display: none; }
 html[data-theme='hai-flare-wide'] .mark-flare-wide { display: block; }

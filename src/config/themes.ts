@@ -11,15 +11,17 @@
 
 /**
  * `mark` selects which logo variant the theme shows:
- *   'mono'  black outline, white infill (the WRKY white-ground artwork)
- *   'flare' the same drawing with the orange gradient infill
- * Both are rendered into the page and CSS picks one, so the dev switcher can
- * flip them at runtime without a rebuild.
+ *   'flare'      the arch with the lifted orange gradient — the house mark
+ *   'flare-wide' same, endpoints pushed apart; kept only for comparison
+ *
+ * The mono (black outline, white infill) variant is no longer used by any
+ * theme. Its asset is still in src/assets/logo-mark.svg if it is ever wanted
+ * back, and it remains the source the gradient variants are generated from.
  */
 export const themes = [
   {
     id: 'hai',
-    mark: 'mono',
+    mark: 'flare',
     bg: '#e9eaeb',
     name: 'Hai',
     nameJa: '灰',
@@ -27,19 +29,11 @@ export const themes = [
   },
   {
     id: 'hai-plus',
-    mark: 'mono',
+    mark: 'flare',
     bg: '#c4c7ca',
     name: 'Hai ++',
     nameJa: '濃灰',
     note: 'hai pushed 30% deeper and cooler. Overcast slate — more industrial, less studio.',
-  },
-  {
-    id: 'hai-flare',
-    bg: '#e9eaeb',
-    mark: 'flare',
-    name: 'Hai Flare',
-    nameJa: '灰火',
-    note: 'hai exactly, but the mark carries the logo gradient instead of the outline.',
   },
   {
     id: 'hai-flare-wide',
@@ -51,7 +45,7 @@ export const themes = [
   },
   {
     id: 'kura',
-    mark: 'mono',
+    mark: 'flare',
     bg: '#f7f4ee',
     name: 'Kura',
     nameJa: '蔵',
