@@ -44,3 +44,4 @@ notes/
 
 # white-balance scratch output
 *.tmp.jpg
+.venv-imgtools/
