@@ -26,6 +26,7 @@ grade: Junmai Ginjo
 labelFront: "./label-front.png"
 labelBack: "./label-back.png"
 bottle: "./bottle.jpg"
+bottleCutout: "./bottle-cutout.png"
 # The green-bottle format; the primary shot is the sake-style bottle.
 bottleAlt: "./bottle-alt.jpg"
 

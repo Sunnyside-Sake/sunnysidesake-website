@@ -22,6 +22,7 @@ thanks: Alewife Brewery & Sweet Avenue, Sunnyside Queens, NYC
 labelFront: "./label-front.png"
 labelBack: "./label-back.png"
 bottle: "./bottle.jpg"
+bottleCutout: "./bottle-cutout.png"
 # Pair shot showing the full bottle alongside its sibling.
 bottleAlt: "./bottle-alt.jpg"
 

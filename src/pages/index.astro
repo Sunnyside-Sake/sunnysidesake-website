@@ -112,7 +112,11 @@ const totalReadings = batches.reduce((n, b) => n + loadReadings(b.data.id).lengt
 
         <a href={`/b/${active.data.id}`} class="group block mt-6">
           <div class="grid md:grid-cols-[220px_1fr] gap-8 md:gap-10 items-start">
-            {active.data.bottle ? (
+            {active.data.bottleCutout ? (
+              <Image src={active.data.bottleCutout} alt={`${active.data.name} bottle`}
+                widths={[220, 440]} sizes="220px"
+                class="w-auto h-auto max-h-[300px] [filter:drop-shadow(0_8px_12px_rgb(0_0_0_/_0.2))]" />
+            ) : active.data.bottle ? (
               <Image src={active.data.bottle} alt={`${active.data.name} bottle`}
                 widths={[220, 440]} sizes="220px"
                 class="w-full max-w-[220px] h-auto border border-ink-800" />
@@ -146,7 +150,11 @@ const totalReadings = batches.reduce((n, b) => n + loadReadings(b.data.id).lengt
 
         <a href={`/b/${latest.data.id}`} class="group block mt-6">
           <div class="grid md:grid-cols-[220px_1fr] gap-8 md:gap-10 items-start">
-            {latest.data.bottle ? (
+            {latest.data.bottleCutout ? (
+              <Image src={latest.data.bottleCutout} alt={`${latest.data.name} bottle`}
+                widths={[220, 440]} sizes="220px"
+                class="w-auto h-auto max-h-[300px] [filter:drop-shadow(0_8px_12px_rgb(0_0_0_/_0.2))]" />
+            ) : latest.data.bottle ? (
               <Image src={latest.data.bottle} alt={`${latest.data.name} bottle`}
                 widths={[220, 440]} sizes="220px"
                 class="w-full max-w-[220px] h-auto border border-ink-800" />

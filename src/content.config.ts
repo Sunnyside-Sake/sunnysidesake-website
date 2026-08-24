@@ -95,6 +95,19 @@ const batches = defineCollection({
 
     // Co-located images, optimized at build. Relative paths: "./bottle.jpg"
     bottle: image().optional(),
+
+    /**
+     * Background-removed bottle, transparent PNG (scripts/cutout.py).
+     * Preferred over `bottle` when present, and rendered differently: no
+     * border, since a frame around a transparent image just draws an empty
+     * box, plus a drop-shadow that follows the alpha so the bottle sits on
+     * the page instead of floating.
+     *
+     * Not every batch can have one. Segmentation needs a plain background;
+     * 004 and 005 were only ever photographed in a restaurant and a bar, and
+     * come back with a sauce dish and a Bowser figurine attached.
+     */
+    bottleCutout: image().optional(),
     bottleAlt: image().optional(),
     labelFront: image().optional(),
     labelBack: image().optional(),
