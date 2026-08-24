@@ -24,7 +24,11 @@ labelFront: "./label-front.png"
 labelBack: "./label-back.png"
 # Shot at Asoko in NYC, where the bottles are sometimes featured. Served in
 # a masu with an overflow glass, against a wall of Japanese sake.
+# Cut out from IMG_1342 — a later Asoko frame with both bottles standing
+# on the bar. Cropped to Silver Hill first, then segmented: the earlier
+# frame failed because segmentation grabbed the whole shelf.
 bottle: "./bottle.jpg"
+bottleCutout: "./bottle-cutout.png"
 # Candlelit bar shot. Silver Hill was never photographed alone against a
 # plain ground, so both of its images are in-situ rather than product shots.
 bottleAlt: "./bottle-alt.jpg"
