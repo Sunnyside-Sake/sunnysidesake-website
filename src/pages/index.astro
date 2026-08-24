@@ -2,7 +2,13 @@
 import Layout from '../layouts/Layout.astro';
 import Placeholder from '../components/Placeholder.astro';
 import { Image } from 'astro:assets';
-import heroImage from '../assets/hero.jpg';
+/**
+ * Background-removed lineup (scripts/cutout.py). hero.jpg stays on disk
+ * unimported as the source of record — it carries the white-balance
+ * correction the cutout inherited, so regenerating from the original HEIC
+ * would mean redoing that first.
+ */
+import heroImage from '../assets/hero-cutout.png';
 import { t } from '../i18n/en';
 import { getCollection } from 'astro:content';
 import { loadReadings } from '../lib/readings';
@@ -67,9 +73,9 @@ const totalReadings = batches.reduce((n, b) => n + loadReadings(b.data.id).lengt
       <Image
         src={heroImage}
         alt="Sunnyside Sake bottles"
-        widths={[380, 760]}
-        sizes="(min-width: 768px) 380px, 90vw"
-        class="w-full max-w-[380px] h-auto justify-self-end"
+        widths={[440, 880]}
+        sizes="(min-width: 768px) 440px, 92vw"
+        class="w-full max-w-[440px] h-auto justify-self-end [filter:drop-shadow(0_12px_18px_rgb(0_0_0_/_0.18))]"
         loading="eager"
       />
     </div>
