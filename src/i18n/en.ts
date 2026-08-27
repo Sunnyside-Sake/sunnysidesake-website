@@ -78,6 +78,15 @@ export const en = {
     stillFermenting: 'This batch is still fermenting. Data updates as readings come in.',
   },
 
+  gallery: {
+    title: 'In the wild',
+    titleJa: '野生',
+    intro: 'Bottles out of the brewery — on bars, on shelves, in front of people.',
+    empty: 'Nothing here yet.',
+    footnote: 'Spotted a bottle somewhere? hello@sunnysidesake.com',
+    navLabel: 'Wild',
+  },
+
   makgeolli: {
     title: 'Makgeolli',
     titleKo: '막걸리',
@@ -117,6 +126,7 @@ export const en = {
 
   footer: {
     alsoMakgeolli: 'Also: makgeolli',
+    gallery: 'In the wild',
     responsibly: 'Please drink responsibly.',
     rights: 'All rights reserved.',
   },

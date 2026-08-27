@@ -131,7 +131,10 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
             <p class="label mt-2">{t.brand.nameJa}</p>
           </div>
           <div class="text-right">
-            <a href="/makgeolli" class="label hover:text-flare transition-colors">
+            <a href="/gallery" class="label hover:text-flare transition-colors block">
+              {t.footer.gallery} →
+            </a>
+            <a href="/makgeolli" class="label hover:text-flare transition-colors block mt-1">
               {t.footer.alsoMakgeolli} →
             </a>
             <p class="label mt-3">{t.footer.responsibly}</p>

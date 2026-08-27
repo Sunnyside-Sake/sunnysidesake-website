@@ -45,3 +45,6 @@ notes/
 # white-balance scratch output
 *.tmp.jpg
 .venv-imgtools/
+
+# local image scratch (previews, contact sheets) — survives /tmp cleanup
+.scratch/

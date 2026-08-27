@@ -173,6 +173,35 @@ const makgeolli = defineCollection({
   }),
 });
 
+/**
+ * Gallery — bottles photographed in bars, restaurants and on shelves.
+ *
+ * Deliberately the opposite of the product shots. These frames are busy,
+ * warm-lit and inconsistent, which is exactly why they belong here rather
+ * than on a batch page: on a spec sheet that reads as sloppy, in a gallery
+ * it reads as evidence the sake actually goes places.
+ *
+ * One markdown file per shot, image co-located beside it.
+ */
+const gallery = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/gallery' }),
+  schema: ({ image }) => z.object({
+    image: image(),
+    // Free text. Left empty on seeded entries — captions are Dan's to write,
+    // and an invented one would be worse than none.
+    caption: z.string().optional(),
+    // Naming a real venue publicly is a decision, not a detail. Blank until
+    // Dan chooses to.
+    venue: z.string().optional(),
+    // Slug of the batch pictured, when it is a single identifiable one.
+    batch: z.string().optional(),
+    date: z.coerce.date().optional(),
+    draft: z.boolean().default(false),
+    // Portrait shots want more column height than landscape ones.
+    feature: z.boolean().default(false),
+  }),
+});
+
 const artists = defineCollection({
   loader: glob({ pattern: '**/index.md', base: './src/content/artists' }),
   schema: ({ image }) => z.object({
@@ -198,4 +227,4 @@ const journal = defineCollection({
   }),
 });
 
-export const collections = { batches, makgeolli, artists, journal };
+export const collections = { batches, makgeolli, gallery, artists, journal };

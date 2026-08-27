@@ -97,7 +97,13 @@ const counts = new Map(batches.map((b) => [b.data.id, loadReadings(b.data.id).le
 
     {/* Aside, not a second product line. Deliberately at the foot of the sake
         index rather than in the nav — see the note in Layout.astro. */}
-    <aside class="mt-14 pt-8 border-t border-ink-800">
+    <aside class="mt-14 pt-8 border-t border-ink-800 grid sm:grid-cols-2 gap-8">
+      <a href="/gallery" class="group inline-block max-w-xl">
+        <p class="label group-hover:text-flare transition-colors">
+          {t.gallery.title} →
+        </p>
+        <p class="prose-body mt-3">{t.gallery.intro}</p>
+      </a>
       <a href="/makgeolli" class="group inline-block max-w-xl">
         <p class="label group-hover:text-flare transition-colors">
           {t.makgeolli.asideLabel} →
