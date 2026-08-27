@@ -20,9 +20,14 @@ const pageTitle = title ? `${title} — ${t.brand.name}` : `${t.brand.name}`;
  * product line, and equal nav billing would claim otherwise. It stays fully
  * published and reachable — linked from the foot of the sake index and from
  * the footer — just not presented as a second line.
+ *
+ * The gallery uses the short label "Wild" rather than "In the wild" or
+ * "Gallery": five items is the most this row fits on a 375px phone, and only
+ * with the shortest label that still reads.
  */
 const navItems = [
   { href: '/batches', label: t.nav.batches },
+  { href: '/gallery', label: t.gallery.navLabel },
   { href: '/artists', label: t.nav.artists },
   { href: '/journal', label: t.nav.journal },
   { href: '/about', label: t.nav.about },
@@ -66,10 +71,17 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
 
   <body class="min-h-screen flex flex-col bg-ink-950">
     <header class="sticky top-0 z-50 bg-ink-950/85 backdrop-blur-md border-b border-ink-800">
-      {/* Back to a single row now that nav is four items. Measured at 375px:
-          fits with room to spare. Adding a fifth item overflows a phone and
-          drags the page sideways — check before you add one. */}
-      <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-8">
+      {/* One row, five items, 64px tall on every width.
+          Five wide-tracked uppercase labels do not fit a phone at desktop
+          spacing — measured at 375px, they need 372px inside a 327px content
+          box. The gaps tighten on mobile instead of the type: the 0.18em
+          tracking on .label is the brand's, not this row's, to trade away.
+          Tightened it needs 304px, so it fits with 23px to spare.
+          Below ~360px it stops fitting no matter what, so the list is its own
+          scroll container — the nav scrolls internally rather than widening
+          the document. That also means a sixth item degrades instead of
+          breaking the page, but check this measurement before adding one. */}
+      <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-3 sm:gap-8">
         <a href="/" class="flex items-center gap-3 group shrink-0">
           {/* Vector, not raster: a PNG downsampled to 28px averaged the
               outline into ~1.4px of grey and looked fuzzy. The browser
@@ -99,14 +111,17 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
           </span>
         </a>
 
-        <ul class="flex items-center gap-5 sm:gap-6">
+        <ul
+          class="flex items-center gap-2 sm:gap-6 min-w-0 overflow-x-auto
+                 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
           {
             navItems.map((item) => (
-              <li>
+              <li class="shrink-0">
                 <a
                   href={item.href}
                   class:list={[
-                    'label transition-colors hover:text-ink-100',
+                    'label whitespace-nowrap transition-colors hover:text-ink-100',
                     isActive(item.href) && 'text-flare',
                   ]}
                 >

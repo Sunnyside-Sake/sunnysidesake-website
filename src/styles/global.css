@@ -65,75 +65,99 @@
   --font-sans: 'Plex Sans', ui-sans-serif, system-ui, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
 }
 
-html {
-  background-color: var(--color-ink-950);
-  color: var(--color-ink-100);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* ============================================================
+   CASCADE LAYERS
 
-::selection {
-  background: var(--color-flare);
-  color: var(--color-ink-950);
+   Tailwind's `@import "tailwindcss"` declares `theme, base, components,
+   utilities` and puts every utility in the last one. Unlayered CSS beats
+   ALL layered CSS regardless of specificity, so a bare `.label { color }`
+   here silently outranks `text-flare` on the same element — `.label
+   text-flare` renders ink-400, and no amount of specificity fixes it.
+   That is why the primitives below are in `components` and the element
+   rules in `base`: it puts them under the utilities in the cascade, so a
+   colour utility next to a primitive does what it reads like it does.
+   Anything added here that sets a property a utility might also set
+   belongs in one of these layers, not outside them.
+   ============================================================ */
+
+@layer base {
+  html {
+    background-color: var(--color-ink-950);
+    color: var(--color-ink-100);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--color-flare);
+    color: var(--color-ink-950);
+  }
+
+  /* Below the primitives deliberately: `.label` on an <a> must still win
+     over this, exactly as it did when both were unlayered and specificity
+     decided it. */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 /* ============================================================
    PRIMITIVES
    ============================================================ */
 
-/* Small tracked-out mono label. The workhorse of the whole system —
-   section headers, metadata keys, status flags. */
-.label {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--color-ink-400);
-}
+@layer components {
 
-/* Numeric data. Tabular figures so columns align down the page —
-   non-negotiable for the fermentation tables. */
-.tabular {
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: 'zero' 1;
-}
+  /* Small tracked-out mono label. The workhorse of the whole system —
+     section headers, metadata keys, status flags. */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-ink-400);
+  }
 
-/* Display type is mono too, echoing the wordmark in the logo.
-   The brand mark reads technical; so should the headings. */
-.display {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-}
+  /* Numeric data. Tabular figures so columns align down the page —
+     non-negotiable for the fermentation tables. */
+  .tabular {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'zero' 1;
+  }
 
-/* The arch motif from the logo, reused as a section rule.
-   Ties the page furniture back to the mark instead of a plain border. */
-.arch-rule {
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    var(--color-flare-deep) 0%,
-    var(--color-flare-warm) 18%,
-    var(--color-ink-800) 18%,
-    var(--color-ink-800) 100%
-  );
-}
+  /* Display type is mono too, echoing the wordmark in the logo.
+     The brand mark reads technical; so should the headings. */
+  .display {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  /* The arch motif from the logo, reused as a section rule.
+     Ties the page furniture back to the mark instead of a plain border. */
+  .arch-rule {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      var(--color-flare-deep) 0%,
+      var(--color-flare-warm) 18%,
+      var(--color-ink-800) 18%,
+      var(--color-ink-800) 100%
+    );
+  }
 
-/* Prose inside markdown bodies */
-.prose-body {
-  color: var(--color-ink-200);
-  line-height: 1.7;
-  max-width: 62ch;
-}
-.prose-body p + p {
-  margin-top: 1em;
+
+  /* Prose inside markdown bodies */
+  .prose-body {
+    color: var(--color-ink-200);
+    line-height: 1.7;
+    max-width: 62ch;
+  }
+  .prose-body p + p {
+    margin-top: 1em;
+  }
 }
