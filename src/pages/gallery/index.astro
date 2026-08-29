@@ -53,14 +53,14 @@ const accentFor = new Map(
             ? accentFor.get(shot.data.batch.toLowerCase())
             : undefined;
           return (
-            <figure class="mb-4 break-inside-avoid group">
-              <div class="relative overflow-hidden bg-ink-900">
+            <figure class="mb-4 break-inside-avoid">
+              <div class="relative bg-ink-900">
                 <Image
                   src={shot.data.image}
                   alt={shot.data.caption || 'Sunnyside Sake in the wild'}
                   widths={[400, 800]}
                   sizes="(min-width:1024px) 340px, 45vw"
-                  class="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                  class="w-full h-auto"
                 />
                 {accent && (
                   <span
