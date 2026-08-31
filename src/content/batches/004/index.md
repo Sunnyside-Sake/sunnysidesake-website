@@ -29,9 +29,9 @@ style:
 
 labelFront: "./label-front.png"
 labelBack: "./label-back.png"
-# Poured glass and food alongside — the only shot in the set showing the
-# sake actually being drunk.
-bottle: "./bottle.jpg"
+# No `bottle`: the poured-glass-and-food shot moved to the gallery. With no
+# cutout either, the detail page hero falls back to a placeholder until this
+# batch is reshot against a plain ground.
 # The one frame where the cloudiness of the liquid is visible.
 bottleAlt: "./bottle-alt.jpg"
 
