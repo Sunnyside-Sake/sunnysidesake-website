@@ -20,9 +20,7 @@ grade: Junmai Daiginjo
 
 labelFront: "./label-front.png"
 labelBack: "./label-back.png"
-bottle: "./bottle.jpg"
 bottleCutout: "./bottle-cutout.png"
-bottleAlt: "./bottle-alt.jpg"
 
 # TODO — not printed on the label, needs your records:
 #   brewStarted, released, abv, smv, acidity, tastingNotes, servingTemp,
