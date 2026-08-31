@@ -23,8 +23,6 @@ labelFront: "./label-front.png"
 labelBack: "./label-back.png"
 bottle: "./bottle.jpg"
 bottleCutout: "./bottle-cutout.png"
-# Pair shot showing the full bottle alongside its sibling.
-bottleAlt: "./bottle-alt.jpg"
 
 # TODO — not printed on the label, needs your records:
 #   brewStarted, released, abv, smv, acidity, tastingNotes, servingTemp,
